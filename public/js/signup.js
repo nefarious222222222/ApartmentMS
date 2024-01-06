@@ -1,3 +1,4 @@
+/*
 $(document).ready(function() {
     $("#signUpForm").on("submit", function(event) {
         event.preventDefault(); // Prevent the form from redirecting to the PHP file
@@ -30,7 +31,4 @@ $(document).ready(function() {
         });
     });
 });
-
-/* 
-
 */

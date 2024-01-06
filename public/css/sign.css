@@ -2,10 +2,10 @@
 
 h1 {
     text-align: center;
-    margin-left: 70px;
     margin-bottom: 40px;
     padding-top: 15px;
     color: white;
+    margin-left: 115px;
 }
 
 .signinBox {
@@ -70,6 +70,10 @@ a {
 
 /* Both */
 
+body {
+    padding-bottom: 30px;
+}
+
 .signIntro {
     display: flex;
     align-items: center;
@@ -132,7 +136,7 @@ form input:hover {
 }
 
 input[type="submit"] {
-    width: 300px;
+    width: 310px;
     height: 35px;
     margin-top: 70px;
     padding-top: 10px;

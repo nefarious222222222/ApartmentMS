@@ -1,14 +1,10 @@
-<span style="font-family: verdana, geneva, sans-serif;"><!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DRCM AMS</title>
         <link rel="stylesheet" href="public/css/homepage.css" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
-            rel="stylesheet"
-        />
         <script src="public/js/redirect.js"></script>
         <script src="public/js/styling.js"></script>
     </head>
@@ -24,8 +20,8 @@
                         <li><a href="about.html" id="aboutBtn">About</a></li>
                         <li><a href="settings.html" id="settingsBtn">Settings</a></li>
                         <li><a href="profile.html" id="profileBtn">Profile</a></li>
-                        <li><a href="signin.html" id="signInBtn">Sign In</a></li>
-                        <li><a href="signup.html" id="signUpBtn">Sign Up</a></li>
+                        <li><a href="signin.php" id="signInBtn">Sign In</a></li>
+                        <li><a href="signup.php" id="signUpBtn">Sign Up</a></li>
                     </ul> 
                 </div>
         
@@ -100,4 +96,3 @@
         </section>
     </body>
 </html>
-</span>
