@@ -1,0 +1,246 @@
+/* Apartment info css */
+
+.title {
+    font-weight: 1000;
+    font-size: 40px;
+    margin: 25px;
+    color: #212423;
+}
+
+.rentapartmentContainer {
+    border-radius: 5px;
+    padding-top: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 40px;
+    margin: 25px;
+    background-color: #212423;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.inputRow {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonGroup {
+    display: flex;
+}
+  
+form label {
+    width: 600px;
+    display: flex;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+form input {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 40px;
+    border: none;
+    border: 2px solid gray;
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+form input:hover {
+    box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
+}
+
+input[type="button"] {
+    width: 300px;
+    height: 35px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    color: #3a403e;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+input[type="button"]:hover {
+    cursor: pointer;
+    color:  white;
+    background-color: #3a403e;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+}
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Pop up message */
+
+.cancelConfirmation {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.cancelContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cancelContent:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+  
+.cancelTitle {
+    margin-top: 0;
+}
+  
+.buttonContainer {
+    margin-top: 20px;
+}
+  
+.buttonContainer button {
+    margin: 0 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    background-color: #3a403e;
+    transition: all 0.3s ease;
+}
+
+.buttonContainer button:hover {
+    cursor: pointer;
+    color:  #3a403e;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5);
+    font-weight: 600;
+}
+
+/* Second Pop up Message */
+
+.rentConfirmation {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.rentContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.rentContent:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+  
+.rentTitle {
+    margin-top: 0;
+}
+  
+.buttonContainer {
+    margin-top: 20px;
+}
+  
+.buttonContainer button {
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    background-color: #3a403e;
+    transition: all 0.3s ease;
+}
+
+.buttonContainer button:hover {
+    cursor: pointer;
+    color:  #3a403e;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5);
+    font-weight: 600;
+}
+
+/* Alert Message css */
+
+.customAlert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 393px;
+    height: 140px;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+.customAlert button {
+    margin-top: 20px;
+}
+
+/* Background Css */
+
+html {	
+	--u: 2vmin; /* change size */
+	--c1: #ffffff;
+  --c2: #e6e6e6;
+	--s1: #0002;
+  --gp: 50%/calc(var(--u) * 10) calc(var(--u) * 10);
+	height: 100vh;
+	background: 
+		repeating-conic-gradient(from 0deg at 50% 13.75%, var(--s1) 0 20.55%, #fff0 21.05% 79.13%, var(--s1) 79.63% 100% ) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
+}

@@ -1,0 +1,174 @@
+/* Sign in css */
+
+h1 {
+    text-align: center;
+    margin-left: 70px;
+    margin-bottom: 40px;
+    padding-top: 15px;
+    color: white;
+}
+
+.signinBox {
+    width: 800px;
+    height: max-content;
+    margin: auto;
+    margin-top: 60px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    background-color: #212423;
+    box-shadow: 0 0 20px 5px rgba( 56, 64, 62, 0.5);
+}
+  
+.forgot {
+    width: max-content;
+    font-size: 15px;
+    margin-left: 310px;
+}
+
+.questionAcc {
+    text-align: center;
+    color: black;
+    font-size: 15px;
+    color: white;
+}
+
+a {
+    color: white;
+    font-weight: 600;
+}
+
+/* Sign up css */
+ 
+.signupBox {
+    width: 800px;
+    height: max-content;
+    margin: auto;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-radius: 5px; 
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    background-color: #212423;
+    box-shadow: 0 0 20px 5px rgba( 56, 64, 62, 0.5);
+}
+
+.questionAcc1 {
+    text-align: center;
+    color: white;
+    font-size: 15px;
+}
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Both */
+
+.signIntro {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.signLogo {
+    margin-left: 30px;
+}
+
+img {
+    width: 100%;
+    height: 120px;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.typeSign {
+    text-align: center;
+    font-weight: 1000;
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    color: white;
+}
+
+form {
+    width: 300px;
+    margin-left: 20px;
+}
+  
+form label {
+    width: 300px;
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin-left: 230px;
+    color: white;
+}
+  
+form input {
+    width: 100%;
+    padding: 7px;
+    border: none;
+    border: 1px solid gray;
+    border-radius: 20px;
+    outline: none;
+    margin-left: 230px;
+    transition: all 0.3s ease;
+}
+
+form input:hover {
+    box-shadow: 0 0 7px 3px rgba(255, 255, 255, 0.5);
+}
+
+input[type="submit"] {
+    width: 300px;
+    height: 35px;
+    margin-top: 70px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: #3a403e;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: #3a403e;
+    color: white;  
+    font-size: 20px;
+}
+
+p {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 15px;
+}
+
+/* Background Css */
+
+html {	
+	--u: 2vmin; /* change size */
+	--c1: #ffffff;
+  --c2: #e6e6e6;
+	--s1: #0002;
+  --gp: 50%/calc(var(--u) * 10) calc(var(--u) * 10);
+	height: 100vh;
+	background: 
+		repeating-conic-gradient(from 0deg at 50% 13.75%, var(--s1) 0 20.55%, #fff0 21.05% 79.13%, var(--s1) 79.63% 100% ) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
+}

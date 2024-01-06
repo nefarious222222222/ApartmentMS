@@ -1,0 +1,91 @@
+/* About us css */
+
+.aboutusContainer {
+    margin: 20px;
+}
+
+.para {
+    margin: 0px;
+    text-indent: 40px;
+    text-align: justify;
+    color: white;
+}
+
+.aboutContainer {
+    border-radius: 5px;
+    padding: 30px;
+    background-color: #3a403e;
+    margin-bottom: 50px;
+}
+
+/* Contact us css */
+
+.contactusContainer {
+    margin: 20px;
+    margin-bottom: 50px;
+}
+
+.contactContainer {
+    display: flex;
+    border-radius: 5px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+    background-color: #3a403e;
+}
+
+.adminInfo {
+    border-radius: 5px;
+    padding-top: 40px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    background-color: white;
+    box-shadow: 0 0 7px 3px rgba(255, 255, 255, 0.5);
+}
+
+p {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.adminName, .adminAge, .adminNum, .adminProgram, .adminSection, .adminEmail {
+    font-weight: 1000;
+}
+
+.name, .age, .program, .section, .email {
+    font-weight: 100;
+}
+
+.adminNum {
+    text-align: center;
+}
+
+/* Both css */
+
+.usType {
+    font-weight: 1000;
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #111212;
+}
+
+/* Background Css */
+
+html {	
+	--u: 2vmin; /* change size */
+	--c1: #ffffff;
+  --c2: #e6e6e6;
+	--s1: #0002;
+  --gp: 50%/calc(var(--u) * 10) calc(var(--u) * 10);
+	height: 100vh;
+	background: 
+		repeating-conic-gradient(from 0deg at 50% 13.75%, var(--s1) 0 20.55%, #fff0 21.05% 79.13%, var(--s1) 79.63% 100% ) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
+		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
+}
+
+body {
+    padding-bottom: 1px;
+}
