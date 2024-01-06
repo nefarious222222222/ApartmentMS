@@ -1,89 +1,95 @@
 <?php
-            require_once('database.php');
+session_start();
+if (isset($_SESSION["user"])) {
+   header("Location: index.php");
+}
+?>
+<?php
+require_once('database.php');
 
-            function emailExists($conn, $email) {
-                $stmt = $conn->prepare("SELECT * FROM account WHERE emailAdd = ?");
-                $stmt->bind_param('s', $email);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                return $result->num_rows > 0;
-            }
-            
-            function usernameExists($conn, $username) {
-                $stmt = $conn->prepare("SELECT * FROM account WHERE username = ?");
-                $stmt->bind_param('s', $username);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                return $result->num_rows > 0;
-            }
+function emailExists($conn, $email) {
+    $stmt = $conn->prepare("SELECT * FROM account WHERE emailAdd = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
 
-            function validateContactNumber($contact) {
-                return (is_numeric($contact) && strlen($contact) === 11);
-            }
+function usernameExists($conn, $username) {
+    $stmt = $conn->prepare("SELECT * FROM account WHERE username = ?");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
 
-            $errors = [];
-            $errorDiv = '';
-            
-            if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                $username = trim($_POST["username"]);
-                $password = $_POST["password"];
-                $confirmPass = $_POST["confirmPass"];
-                $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
-                $contact = $_POST["contactNum"];
-            
-                if (empty($username) || empty($password) || empty($confirmPass) || empty($email) || empty($contact)) {
-                    $errors[] = "All fields are required";
-                }
+function validateContactNumber($contact) {
+    return (is_numeric($contact) && strlen($contact) === 11);
+}
 
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $errors[] = "Email is not valid";
-                }
+$errors = [];
+$errorDiv = '';
 
-                if (emailExists($conn, $email)) {
-                    $errors[] = "Email already exists";
-                }
-                
-                if (usernameExists($conn, $username)) {
-                    $errors[] = "Username already exists";
-                }
-            
-                if (strlen($password) < 8) {
-                    $errors[] = "Password must be at least 8 characters long";
-                }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = trim($_POST["username"]);
+    $password = $_POST["password"];
+    $confirmPass = $_POST["confirmPass"];
+    $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
+    $contact = $_POST["contactNum"];
 
-                if ($password !== $confirmPass) {
-                    $errors[] = "Password does not match";
-                }
+    if (empty($username) || empty($password) || empty($confirmPass) || empty($email) || empty($contact)) {
+        $errors[] = "All fields are required";
+    }
 
-                if (!validateContactNumber($contact)) {
-                    $errors[] = "Contact number is not valid";
-                }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Email is not valid";
+    }
 
-                if (!empty($errors)) {
-                    foreach ($errors as $error) {
-                        $errorDiv .= "<div class='alertError'><p>$error</p></div>";
-                    }
-                }
-                else {
-                    $username = mysqli_real_escape_string($conn, $_POST["username"]);
-                    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-                    $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
-                    $contact = $_POST["contactNum"];
+    if (emailExists($conn, $email)) {
+        $errors[] = "Email already exists";
+    }
+    
+    if (usernameExists($conn, $username)) {
+        $errors[] = "Username already exists";
+    }
 
-                    $sql = "INSERT INTO account (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param('ssss', $username, $password, $email, $contact);
+    if (strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters long";
+    }
 
-                    if ($stmt->execute()) {
-                        header("Location: signin.php");
-                        exit();
-                    } else {
-                        $errors[] = "Account failed". $stmt->error;
-                    }
-                }
-            }
-            ?>
+    if ($password !== $confirmPass) {
+        $errors[] = "Password does not match";
+    }
 
+    if (!validateContactNumber($contact)) {
+        $errors[] = "Contact number is not valid";
+    }
+
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+        }
+    }
+    else {
+        $username = mysqli_real_escape_string($conn, $_POST["username"]);
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
+        $contact = $_POST["contactNum"];
+
+        $sql = "INSERT INTO account (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssss', $username, $password, $email, $contact);
+
+        if ($stmt->execute()) {
+            header("Location: signin.php");
+            exit();
+        } else {
+            $errors[] = "Account failed". $stmt->error;
+        }
+    }
+}
+?>
+<span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -160,3 +166,4 @@
         </div>
     </body>
 </html>
+</span>

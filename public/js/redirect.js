@@ -1,7 +1,11 @@
 /* JS For redirecting pages */
 
 function goBack() {
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
+}
+
+function goSignOut() {
+    window.location.href = 'signout.php';
 }
 
 function goRent() {

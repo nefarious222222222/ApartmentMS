@@ -1,3 +1,4 @@
+<span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,6 +8,15 @@
         <link rel="stylesheet" href="public/css/homepage.css" />
         <script src="public/js/redirect.js"></script>
         <script src="public/js/styling.js"></script>
+        <script>
+            function showSignConfirm() {
+                document.getElementById("signConfirmation").style.display = "block"; 
+            }
+
+            function closeSignConfirm() {
+                document.getElementById("signConfirmation").style.display = "none";
+            }
+        </script>
     </head>
     <body>
         <section id="home" class="introContainer">
@@ -16,12 +26,32 @@
                         <img class="drcmLogo" src="public/images/logo.png" alt="DRCM Logo" />
                     </div>
                     
+                    <div class="signConfirmation" id="signConfirmation">
+                        <div class="signContent">
+                            <h2 class="signTitle">Sign Out</h2>
+                            <p class="signMessage">Do you want to sign out?</p>
+
+                            <div class="buttonContainer">
+                                <button type="button" onclick="goSignOut()">Yes</button>
+                                <button type="button" onclick="closeSignConfirm()">No</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <ul class="menu">
-                        <li><a href="about.html" id="aboutBtn">About</a></li>
-                        <li><a href="settings.html" id="settingsBtn">Settings</a></li>
-                        <li><a href="profile.html" id="profileBtn">Profile</a></li>
-                        <li><a href="signin.php" id="signInBtn">Sign In</a></li>
-                        <li><a href="signup.php" id="signUpBtn">Sign Up</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <?php
+                        session_start();
+                        if (isset($_SESSION["user"])) {
+                            echo '<style>.menu li { margin-left: 70px; }</style>';
+                            echo '<li><a id="signOutLink" onclick="showSignConfirm()">Sign Out</a></li>';
+                        } else {
+                            echo '<li><a href="signin.php">Sign In</a></li>';
+                            echo '<li><a href="signup.php">Sign Up</a></li>';
+                        }
+                        ?>
                     </ul> 
                 </div>
         
@@ -96,3 +126,4 @@
         </section>
     </body>
 </html>
+</span>

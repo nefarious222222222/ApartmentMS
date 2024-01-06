@@ -1,17 +1,21 @@
 <?php
+session_start();
+if (isset($_SESSION["user"])) {
+   header("Location: index.php");
+}
+?>
+<?php
 require_once('database.php');
 
 function validateUser($conn, $username, $password) {
-    $stmt = $conn->prepare("SELECT * FROM account WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password FROM account WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {            
-            return true;
-        }
+        return password_verify($password, $row['password']);
     }
     return false;
 }
@@ -32,15 +36,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errorDiv .= "<div class='alertError'><p>$error</p></div>";
         }
     } else {
+        session_start();
         if (validateUser($conn, $username, $password)) {
+            $_SESSION["user"] = $username; // Storing username instead of "yes"
+            session_regenerate_id(true); // Regenerate session ID for security
             header("Location: index.php");
-            exit();
+            die();
         } else {
             $errorDiv .= "<div class='alertError'><p>Invalid username or password</p></div>";
         }
     }
 }
 ?>
+<span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -108,3 +116,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     </body>
 </html>
+</span>
