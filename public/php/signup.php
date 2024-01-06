@@ -7,23 +7,6 @@
     // Create connection
     $conn =  mysqli_connect($servername, $username, $password, $dbname);
 
-    
-    // Prepare the SQL query
-    $sql = "SELECT * FROM users WHERE username = ? OR email = ?";
-
-    // Execute the query with the provided username and email
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $emailAdd);
-    $stmt->execute();
-
-    // Store the result
-    $result = $stmt->get_result();
-
-    // Check if any results were returned
-    if ($result->num_rows > 0) {
-        die("Username or email already exists.");
-    } else {
-        // Check if the form was submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve form data
         $username = isset($_POST['username']) ? $_POST['username'] : '';
@@ -56,9 +39,6 @@
             mysqli_stmt_bind_param($stmt, "sssi", $username, $password, $emailAdd, $contactNum);
         }  
     }
-
-        mysqli_stmt_execute($stmt);
-
+    mysqli_stmt_execute($stmt);
     $conn->close();
-    }
 ?>
