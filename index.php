@@ -28,6 +28,22 @@ session_start();
                 document.getElementById("notSignedAlert").style.display = "none";
             }
 
+            function showChooseSettings() {
+                document.getElementById("chooseSettings").style.display = "block"; 
+            }
+
+            function closeChooseSettings() {
+                document.getElementById("chooseSettings").style.display = "none";
+            }
+
+            function showChooseProfile() {
+                document.getElementById("chooseProfile").style.display = "block"; 
+            }
+
+            function closeChooseProfile() {
+                document.getElementById("chooseProfile").style.display = "none";
+            }
+
             function checkSignIn(event) {
                 <?php
                 if (!isset($_SESSION["user"])) {
@@ -36,9 +52,9 @@ session_start();
                 else {
                     echo 'var targetId = event.target.id;';
                     echo 'if (targetId === "settings") {';
-                    echo '  window.location.href = "settings.html";';
+                    echo '  showChooseSettings();';
                     echo '} else if (targetId === "profile") {';
-                    echo '  window.location.href = "profile.html";';
+                    echo '  showChooseProfile();';
                     echo '}';
                 }
                 ?>
@@ -72,6 +88,33 @@ session_start();
 
                             <div class="buttonContainer">
                                 <button type="button" onclick="closeNotSigned()">Okay</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chooseSettings" id="chooseSettings">
+                        <div class="chooseSettingsContent">
+                            <h2 class="chooseSettingsTitle">Settings</h2>
+                            <p class="chooseSettingsMessage">What do you intend to do?</p>
+
+                            <div class="buttonContainer">
+                                <button type="button" onclick="goEditInfo()">Edit Information</button>
+                                <button type="button" onclick="goChangePass()">Change Password</button>
+                                <button type="button" onclick="">Maintenance Request</button>
+                                <button type="button" onclick="closeChooseSettings()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chooseProfile" id="chooseProfile">
+                        <div class="chooseProfileContent">
+                            <h2 class="chooseProfileTitle">Profile</h2>
+                            <p class="chooseProfileMessage">What do you intend to do?</p>
+
+                            <div class="buttonContainer">
+                                <button type="button" onclick="goInfo()">View Information</button>
+                                <button type="button" onclick="goBilling()">Billing</button>
+                                <button type="button" onclick="closeChooseProfile()">Back</button>
                             </div>
                         </div>
                     </div>
