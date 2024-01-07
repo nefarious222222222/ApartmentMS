@@ -8,7 +8,7 @@ if (isset($_SESSION["user"])) {
 require_once('database.php');
 
 function validateUser($conn, $username, $password) {
-    $stmt = $conn->prepare("SELECT password FROM account WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -36,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errorDiv .= "<div class='alertError'><p>$error</p></div>";
         }
     } else {
-        session_start();
         if (validateUser($conn, $username, $password)) {
-            $_SESSION["user"] = $username; // Storing username instead of "yes"
-            session_regenerate_id(true); // Regenerate session ID for security
+            session_start();
+            $_SESSION["user"] = $username;
+            session_regenerate_id(true);
             header("Location: index.php");
             die();
         } else {
@@ -56,19 +56,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <link rel="stylesheet" href="public/css/sign.css" />
         <script src="public/js/redirect.js"></script>
         <style>
-            .alertError {
+           .alertError {
                 padding: 10px;
                 margin: -15px 50px 25px 50px;
                 border-radius: 5px;
                 text-align: center;
                 background-color: rgb(239, 151, 151);
+                font-size: 13px;
+                transition: all 0.3s ease;
+            }
+
+            .alertError:hover {
+                box-shadow: 0 0 7px 3px rgba(255, 183, 183, 0.704);
             }
 
             p {
                 margin: 10px;
                 padding: 0px;
                 color: rgb(62, 21, 21);
-                font-size: 20px;
             }
         </style>
     </head>

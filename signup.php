@@ -8,7 +8,7 @@ if (isset($_SESSION["user"])) {
 require_once('database.php');
 
 function emailExists($conn, $email) {
-    $stmt = $conn->prepare("SELECT * FROM account WHERE emailAdd = ?");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE emailAdd = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -16,7 +16,7 @@ function emailExists($conn, $email) {
 }
 
 function usernameExists($conn, $username) {
-    $stmt = $conn->prepare("SELECT * FROM account WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
         $contact = $_POST["contactNum"];
 
-        $sql = "INSERT INTO account (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssss', $username, $password, $email, $contact);
 
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: signin.php");
             exit();
         } else {
-            $errors[] = "Account failed". $stmt->error;
+            $errors[] = "Account registration failed". $stmt->error;
         }
     }
 }
@@ -103,13 +103,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 border-radius: 5px;
                 text-align: center;
                 background-color: rgb(239, 151, 151);
+                font-size: 13px;
+                transition: all 0.3s ease;
+            }
+
+            .alertError:hover {
+                box-shadow: 0 0 7px 3px rgba(255, 183, 183, 0.704);
             }
 
             p {
                 margin: 10px;
                 padding: 0px;
                 color: rgb(62, 21, 21);
-                font-size: 20px;
             }
         </style>
     </head>
