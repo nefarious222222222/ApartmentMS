@@ -34,3 +34,4 @@ function showAlert() {
 function closeAlert() {
     window.location.href = 'index.html';
 }
+
