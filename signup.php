@@ -5,7 +5,7 @@ if (isset($_SESSION["user"])) {
 }
 ?>
 <?php
-require_once('database.php');
+require_once('public/php/database.php');
 
 function emailExists($conn, $email) {
     $stmt = $conn->prepare("SELECT * FROM users WHERE emailAdd = ?");

@@ -50,7 +50,7 @@
                 <div class="group">
                     <img id="newImg" class="apartmentImg" src="" alt=""/>
 
-                    <p class="firstInfo">
+                    <p class="firstInfo" id="changeText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.
                     </p>
                 </div>

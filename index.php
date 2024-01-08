@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once('public/php/apartmenttext.php')
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -128,7 +129,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartOne">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartOne">
+                        <?php echo $indentDesOne; ?>
+                        </p>
                     </div>
                 </div>
     
@@ -138,7 +141,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartTwo">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartTwo"> 
+                        <?php echo $indentDesTwo; ?>
+                        </p>
                     </div>
                 </div>
     
@@ -148,7 +153,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartThree">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartThree">
+                        <?php echo $indentDesThree; ?>     
+                        </p>
                     </div>
                 </div>
     
@@ -158,7 +165,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartFour">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartFour">
+                        <?php echo $indentDesFour; ?>
+                        </p>
                     </div>
                 </div>
     
@@ -168,7 +177,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartFive">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartFive"> 
+                        <?php echo $indentDesFive; ?>
+                        </p>
                     </div>
                 </div>
     
@@ -178,7 +189,9 @@ session_start();
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="apartmentDetails" id="infoApartSix">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.</p>
+                        <p class="apartmentDetails" id="infoApartSix">
+                        <?php echo $indentDesSix; ?>
+                        </p>
                     </div>
                 </div>
             </div>

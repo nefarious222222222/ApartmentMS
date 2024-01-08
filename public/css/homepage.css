@@ -239,6 +239,7 @@ ul {
 }
 
 .aboutApartment {
+    height: 580px;
     margin: 20px 30px 50px 30px;
     flex-wrap: wrap;
     padding: 15px 35px 20px 35px;
@@ -317,3 +318,21 @@ html {
 		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
 		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
 }
+
+ /* Scrollbar look */
+ ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #cccccc;
+  }

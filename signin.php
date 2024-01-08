@@ -5,7 +5,7 @@ if (isset($_SESSION["user"])) {
 }
 ?>
 <?php
-require_once('database.php');
+require_once('public/php/database.php');
 
 function validateUser($conn, $username, $password) {
     $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
