@@ -1,50 +1,66 @@
-/* Profile css */
+/* Information css */
 
 .title {
     font-weight: 1000;
     font-size: 60px;
-    margin: 30px;
-    text-align: center;
+    margin: 10px 30px 10px 30px;
     color: #212423;
 }
 
-.profileContainer {
+.container {
     border: 1px solid;
+    border-radius: 5px;
+    border-color: white;
     margin: 25px;
-    padding-top: 140px;
-    border-radius: 5px;
-    padding-bottom: 50px;
+    padding: 80px 0 85px 0;
     background-color: #212423;
-}
-
-form {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 }
 
-input[type="button"] {
-    width: 430px;
-    height: fit-content;
-    padding: 20px;
-    display: block;
-    margin: 0 auto;
+.groupOne {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.groupTwo {
+    display: flex;
+}
+
+.infoContainer {
     border-radius: 5px;
-    border: none;
     background-color: white;
-    color: #3a403e;
-    font-size: 40px;
-    border-radius: 50px;
-    margin-bottom: 90px;
-    font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
+    height: fit-content;
+    padding: 30px 40px 10px 40px;
     transition: all 0.3s ease;
 }
 
-input[type="button"]:hover {
-    cursor: pointer;
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5);
-    color: white;
-    background-color:  #3a403e;
+.infoContainer:hover {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5); 
+}
+
+img {
+    width: 200px;
+    height: 100%;
+    margin-right: 50px;
+}
+
+.groupTextTwo {
+    margin-right: 96px;
+}
+
+.type {
+    margin: 10px 0 0 0;
+    font-size: 20px;
+}
+
+.info {
+    margin: 10px 0 30px 0;
+    font-size: 20px;
+}
+
+body {
+    padding-bottom: 20px;
 }
 
 /* Background Css */

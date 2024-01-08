@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <title>DRCM AMS</title>
-        <link rel="stylesheet" href="public/css/changepass.css" />
+        <link rel="stylesheet" href="public/css/maintenance.css" />
          <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
             rel="stylesheet"
@@ -11,31 +11,26 @@
     </head>
     <body>
         <h1 class="title">
-            Change Password          
+            Maintenance Request          
         </h1>
         <div class="changeContainer">                         
             <form>
                 <label>
-                    Email Address:                        
+                    Apartment ID:                        
                 </label>
                 <input type="text" placeholder="" />
 
                 <label>
-                    Current Password:                        
+                    About:                        
                 </label>
-                <input type="password" placeholder="" />
+                <input type="text" placeholder="" />
 
                 <label>
-                    New Password:                        
+                    Request:                        
                 </label>
-                <input type="password" placeholder="" />
+                <input type="text" placeholder="" />
 
-                <label>
-                    Confirm Password:                        
-                </label>
-                <input type="Password" placeholder="" />
-
-                <input type="button" value="Change Password" />
+                <input type="button" value="Create Request" />
             </form>
         </div>
     </body>

@@ -20,6 +20,10 @@ function goChangePass() {
     window.location.href = 'changepass.html';
 }
 
+function goMaintenance() {
+    window.location.href = 'maintenance.php';
+}
+
 function goInfo() {
     window.location.href = 'information.html';
 }

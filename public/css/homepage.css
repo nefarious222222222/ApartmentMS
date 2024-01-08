@@ -225,8 +225,7 @@ ul {
     cursor: pointer;
     color:  #3a403e;
     background-color: white;
-    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5);
-    
+    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5); 
 }
 
 /* Apartment Information css */
