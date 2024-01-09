@@ -30,8 +30,8 @@
 }
 
 .apartmentImg {
-    width: 100%;
-    height: 225px;
+    width: 400px;
+    height: 100%;
     border-radius: 5px;
     box-shadow: 0 0 10px 5px white;
 }
@@ -52,8 +52,6 @@
 }
 
 img {
-    height: 200px;
-    width: 100%;
     margin-right: 50px;
 }
 

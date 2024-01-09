@@ -9,38 +9,59 @@
 
 .rentapartmentContainer {
     border-radius: 5px;
-    padding-top: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 40px;
-    margin: 25px;
+    padding: 40px 50px 40px 50px;
+    margin: 20px 20px 50px 20px;
     background-color: #212423;
-}
-
-.formContainer {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .inputRow {
     display: flex;
     flex-direction: column;
+    width: 500px;
+    margin: auto;
 }
 
 .buttonGroup {
     display: flex;
 }
-  
-form label {
-    width: 600px;
+
+p {
+    margin: 0;
+}
+
+.validInfo {
     display: flex;
-    font-size: 18px;
+    flex-direction: row;
+    width: fit-content;
+}
+
+.groupOne {
+    margin-right: 50px;
+    width: 200px;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+form label {
+    width: fit-content;
+    display: flex;
     margin-top: 20px;
     margin-bottom: 5px;
-    font-weight: 600;
     color: white;
+    font-size: 18px;
+    font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.groupTwo {
+    width: 250px;
 }
   
 form input {
@@ -55,7 +76,7 @@ form input {
 }
 
 form input:hover {
-    box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5);
 }
 
 input[type="button"] {

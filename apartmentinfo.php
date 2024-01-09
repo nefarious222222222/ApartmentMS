@@ -1,3 +1,33 @@
+<?php
+require_once('public/php/apartmenttext.php');
+$imageSrc = $_GET['imageSrc'];
+$description = $_GET['description'];
+
+if($description == $indentDesOne) {
+    $firstDescription = $firstDesOne;
+    $secondDescription = $secondDesOne;
+}
+else if ($description == $indentDesTwo) {
+    $firstDescription = $firstDesTwo;
+    $secondDescription = $secondDesTwo;
+}
+else if ($description == $indentDesThree) {
+    $firstDescription = $firstDesThree;
+    $secondDescription = $secondDesThree;
+}
+else if ($description == $indentDesFour) {
+    $firstDescription = $firstDesFour;
+    $secondDescription = $secondDesFour;
+}
+else if ($description == $indentDesFive) {
+    $firstDescription = $firstDesFive;
+    $secondDescription = $secondDesFive;
+}
+else if ($description == $indentDesSix) {
+    $firstDescription = $firstDesSix;
+    $secondDescription = $secondDesSix;
+}
+?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
 <html lang="en">
@@ -48,15 +78,15 @@
         <div class="apartmentInfoContainer">
             <div class="infoGroup">
                 <div class="group">
-                    <img id="newImg" class="apartmentImg" src="" alt=""/>
+                    <?php echo '<img class="apartmentImg" src="' . $imageSrc . '" alt="Apartment Image" />' ?>
 
                     <p class="firstInfo" id="changeText">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.
+                        <?php echo $firstDescription; ?>
                     </p>
                 </div>
     
                 <p class="secondInfo">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor malesuada odio nec hendrerit. Nulla facilisi. Quisque id felis sed nisi faucibus fringilla vel ac ante. Ut euismod nulla vel quam consequat, eget placerat odio bibendum. Maecenas dignissim lobortis odio, nec volutpat nibh dapibus eu. Aliquam erat volutpat. Integer ullamcorper aliquam urna, eget gravida lectus fermentum ut. Morbi nec odio vitae enim efficitur sollicitudin. Integer consequat justo non lorem interdum, vitae efficitur quam consequat. Etiam vitae consequat ipsum, sit amet consequat nulla. Curabitur lacinia suscipit turpis vel faucibus. Suspendisse potenti. Sed a sollicitudin velit.
+                    <?php echo $secondDescription; ?>
                 </p>
             </div>
 

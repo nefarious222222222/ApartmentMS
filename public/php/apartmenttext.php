@@ -1,4 +1,5 @@
 <?php
+/* Homepage description */
 $apaDesOne = "Discover metropolitan elegance in this upscale two-bedroom apartment nestled in the heart of the bustling cityscape.<br><br>Embrace panoramic city views that mesmerize, unwind in the seamless design of its open layout, and relish access to exclusive amenities like a modern fitness hub and an enchanting rooftop terrace.<br><br>This thoughtfully designed sanctuary not only defines luxury living but also encapsulates a lifestyle unparalleled in a vibrant downtown enclave, mere steps from urban hotspots and delightful pathways that meander through the city's dynamic landscape.";
 $indentDesOne = str_replace('<br>', '<br>&emsp;&emsp;&emsp;', $apaDesOne);
 
@@ -16,4 +17,23 @@ $indentDesFive = str_replace('<br>', '<br>&emsp;&emsp;&emsp;', $apaDesFive);
 
 $apaDesSix = "Experience city living at its finest in this remarkable two-bedroom duplex apartment located in the heart of Downtown Oasis.<br><br>The spacious primary bedroom offers an awe-inspiring city view, creating an enchanting backdrop to your nights. Embrace the luxury of ample space, from the expansive living area to the generously sized secondary bedroom.<br><br>This meticulously curated residence ensures unparalleled comfort and style, featuring exclusive access to a private fitness center and a rooftop terrace, all within reach of cultural attractions and the vibrant pulse of the city.";
 $indentDesSix = str_replace('<br>', '<br>&emsp;&emsp;&emsp;', $apaDesSix);
+
+/* Apartment Info description */
+$firstDesOne = "Discover metropolitan elegance in this upscale two-bedroom apartment nestled in the heart of the bustling cityscape.Embrace panoramic city views that mesmerize, unwind in the seamless design of its open layout, and relish access to exclusive amenities like a modern fitness hub and an enchanting rooftop terrace. This thoughtfully designed sanctuary not only defines luxury living but also encapsulates a lifestyle unparalleled in a vibrant downtown enclave, mere steps from urban hotspots and delightful pathways that meander through the city's dynamic landscape.";
+$secondDesOne = "";
+
+$firstDesTwo = "Step into a realm of urban opulence with this grandiose two-bedroom duplex apartment located in the prestigious Skyline Towers. Be awestruck by the vast expanse of this extraordinary space, boasting soaring ceilings and expansive windows that offer breathtaking panoramic views of the cityscape. This meticulously crafted residence redefines luxury living, providing an unmatched experience in a coveted city location, close to iconic landmarks and vibrant urban corridors.";
+$secondDesTwo = "";
+
+$firstDesThree = "Uncover urban sophistication in this lavish two-bedroom duplex apartment situated in the heart of Uptown District. Engulf yourself in mesmerizing skyline vistas, immerse in the seamless flow of its two-story layout, and revel in exclusive amenities such as a state-of-the-art fitness center and a captivating rooftop terrace. This meticulously designed residence doesn't just embody luxury; it epitomizes an unparalleled lifestyle in a bustling city locale, mere steps away from cultural landmarks and scenic pathways that wind through the vibrant urban scenery.";
+$secondDesThree = "";
+
+$firstDesFour = "Explore luxury and space in this remarkable two-bedroom duplex apartment nestled within the historic quarters of Downtown Heights. Be greeted by an abundance of natural light streaming through tall windows, illuminating the expansive open-plan layout that extends across two levels. Experience exclusivity with access to a private fitness center and a rooftop terrace, perfect for unwinding against the backdrop of city lights. This meticulously designed residence offers an extraordinary living experience in a prime downtown location, within easy reach of cultural landmarks and bustling city life.";
+$secondDesFour = "";
+
+$firstDesFive = "Discover urban luxury in this stunning two-bedroom duplex apartment, perched high in the renowned Vista Towers, offering breathtaking city views from every angle. Indulge in the convenience of your own private mini bar, elegantly nestled within the expansive living area spanning two floors. This meticulously designed residence not only embodies sophistication but also grants access to a personal fitness center and a rooftop terrace, ensuring a lavish lifestyle in a prime city location close to cultural attractions and vibrant urban scenes.";
+$secondDesFive = "";
+
+$firstDesSix = "Experience city living at its finest in this remarkable two-bedroom duplex apartment located in the heart of Downtown Oasis. The spacious primary bedroom offers an awe-inspiring city view, creating an enchanting backdrop to your nights. Embrace the luxury of ample space, from the expansive living area to the generously sized secondary bedroom. This meticulously curated residence ensures unparalleled comfort and style, featuring exclusive access to a private fitness center and a rooftop terrace, all within reach of cultural attractions and the vibrant pulse of the city.";
+$secondDesSix = "";
 ?>

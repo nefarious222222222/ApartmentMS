@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('public/php/apartmenttext.php')
+require_once('public/php/apartmenttext.php');
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -126,11 +126,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment1.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&description=<?php echo urlencode($indentDesOne); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartOne">
-                        <?php echo $indentDesOne; ?>
+                            <?php echo $indentDesOne; ?>
                         </p>
                     </div>
                 </div>
@@ -138,11 +138,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment2.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&description=<?php echo urlencode($indentDesTwo); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartTwo"> 
-                        <?php echo $indentDesTwo; ?>
+                            <?php echo $indentDesTwo; ?>
                         </p>
                     </div>
                 </div>
@@ -150,11 +150,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment3.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&description=<?php echo urlencode($indentDesThree); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartThree">
-                        <?php echo $indentDesThree; ?>     
+                            <?php echo $indentDesThree; ?>     
                         </p>
                     </div>
                 </div>
@@ -162,11 +162,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment4.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&description=<?php echo urlencode($indentDesFour); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartFour">
-                        <?php echo $indentDesFour; ?>
+                            <?php echo $indentDesFour; ?>
                         </p>
                     </div>
                 </div>
@@ -174,11 +174,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment5.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&description=<?php echo urlencode($indentDesFive); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartFive"> 
-                        <?php echo $indentDesFive; ?>
+                            <?php echo $indentDesFive; ?>
                         </p>
                     </div>
                 </div>
@@ -186,11 +186,11 @@ require_once('public/php/apartmenttext.php')
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment6.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&description=<?php echo urlencode($indentDesSix); ?>" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartSix">
-                        <?php echo $indentDesSix; ?>
+                            <?php echo $indentDesSix; ?>
                         </p>
                     </div>
                 </div>

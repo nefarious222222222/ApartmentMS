@@ -1,16 +1,5 @@
 /* JS for styling like DOM */
 
-document.addEventListener('DOMContentLoaded', function() {
-    const params = new URLSearchParams(window.location.search);
-    const imageSrc = params.get('imageSrc');
-
-    var newImage = document.getElementById('newImg');
-
-    if (imageSrc) {
-        newImage.src = imageSrc;
-    } 
-});
-
 function showCancel() {
     document.getElementById('cancelConfirmation').style.display = "block";
 }
@@ -30,8 +19,3 @@ function closeRent() {
 function showAlert() {
     document.getElementById('customAlert').style.display = "block";
 }
-
-function closeAlert() {
-    window.location.href = 'index.html';
-}
-
