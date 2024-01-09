@@ -2,12 +2,12 @@
 session_start();
 require_once('public/php/database.php');
 
-$errors = [];
-$errorDiv = '';
-
 if (isset($_SESSION["user"])) {
     $sql = "SELECT userID, contactNum, emailAdd FROM users";
     $result = $conn->query($sql);
+
+    $errors = [];
+    $errorDiv = '';
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
