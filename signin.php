@@ -99,12 +99,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label>
                     Username:                        
                 </label>
-                <input type="text" placeholder=""  name="username"/>
+                <input type="text" name="username"/>
 
                 <label>
                     Password:                        
                 </label>
-                <input type="Password" placeholder=""  name="password"/>
+                <input type="Password" name="password"/>
 
                 <input type="submit" value="Sign In" />
 

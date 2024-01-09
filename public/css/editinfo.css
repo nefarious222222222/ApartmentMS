@@ -55,7 +55,7 @@ input:hover {
     box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
 }
 
-input[type="button"] {
+input[type="submit"] {
     width: 300px;
     height: 35px;
     padding-top: 10px;
@@ -70,7 +70,7 @@ input[type="button"] {
     font-size: 18px;
 }
 
-input[type="button"]:hover {
+input[type="submit"]:hover {
     cursor: pointer;
     background-color: #3a403e;
     color: white;
@@ -97,3 +97,21 @@ html {
 		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
 		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
 }
+
+ /* Scrollbar look */
+ ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #cccccc;
+  }

@@ -9,11 +9,11 @@ function goSignOut() {
 }
 
 function goRent() {
-    window.location.href = 'rentapartment.html';
+    window.location.href = 'rentapartment.php';
 }
 
 function goEditInfo() {
-    window.location.href = 'editinfo.html';
+    window.location.href = 'editinfo.php';
 }
 
 function goChangePass() {

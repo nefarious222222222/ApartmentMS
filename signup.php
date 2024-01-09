@@ -140,27 +140,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label>
                     Username:
                 </label>
-                <input type="text" placeholder="" name="username"/>
+                <input type="text" name="username"/>
 
                 <label>
                     Password:
                 </label>
-                <input type="password" placeholder="" name="password"/>
+                <input type="password" name="password"/>
                     
                 <label>
                     Confirm Password:
                 </label>
-                <input type="password" placeholder="" name="confirmPass"/>
+                <input type="password" name="confirmPass"/>
 
                 <label>
                     Email Address:
                 </label>
-                <input type="text" placeholder="" name="emailAdd"/>
+                <input type="text" name="emailAdd"/>
 
                 <label>
                     Contact Number:
                 </label>
-                <input type="number" placeholder="" class="no-spinner" name="contactNum"/>
+                <input type="number" class="no-spinner" name="contactNum"/>
 
                 <input type="submit" value="Create Account"/>
             </form>
