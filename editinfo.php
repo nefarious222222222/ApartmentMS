@@ -2,12 +2,12 @@
 session_start();
 require_once('public/php/database.php');
 
+$errors = [];
+$errorDiv = '';
+
 if (isset($_SESSION["user"])) {
     $sql = "SELECT userID, contactNum, emailAdd FROM users";
     $result = $conn->query($sql);
-
-    $errors = [];
-    $errorDiv = '';
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -15,57 +15,59 @@ if (isset($_SESSION["user"])) {
         $contactNum = $row["contactNum"];
         $emailAdd = $row["emailAdd"];
 
-        $fullname = isset($_POST["fullname"]) ? trim($_POST["fullname"]) : '';
-        $age = isset($_POST["age"]) ? trim($_POST["age"]) : '';
-        $contact = isset($_POST["contactNum"]) ? trim($_POST["contactNum"]) : '';
-        $gender = isset($_POST["gender"]) ? trim($_POST["gender"]) : '';
-        $dob = isset($_POST["dateOfBirth"]) ? $_POST["dateOfBirth"] : '';
-        $email = isset($_POST["emailAdd"]) ? filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL) : '';
-
-        if (empty($fullname) || empty($age) || empty($contact) || empty($gender) || empty($dob) || empty($email)) {
-            $errors[] = "All fields are required";
-        }
-
-        if (strtolower($gender) !== 'male' && strtolower($gender) !== 'female') {
-            $errors[] = "Gender should be Male or Female";
-        }
-
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dob)) {
-            $errors[] = "Date of birth should be in YYYY-MM-DD format";
-        }
-
-        if ($contact !== $contactNum) {
-            $errors[] = "Contact number does not match your original contact number";
-        }
-
-        if ($email !== $emailAdd) {
-            $errors[] = "Email does not match your original email";
-        }
-
-        if (empty($errors)) {
-            $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
-            $stmt = $conn->prepare($profileCheckQuery);
-            $stmt->bind_param('i', $userid);
-            $stmt->execute();
-            $existingProfile = $stmt->get_result()->fetch_assoc();
-
-            if ($existingProfile) {
-                $updateQuery = "UPDATE profile SET fullname=?, age=?, contactNum=?, gender=?, dateOfBirth=?, emailAdd=? WHERE userID=?";
-                $stmt = $conn->prepare($updateQuery);
-                $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
-                $stmt->execute();
-            } else {
-                $insertQuery = "INSERT INTO profile (fullname, age, contactNum, gender, dateOfBirth, emailAdd, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                $stmt = $conn->prepare($insertQuery);
-                $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
-                $stmt->execute();
+        if (isset($_POST["submit"])) {
+            $fullname = isset($_POST["fullname"]) ? trim($_POST["fullname"]) : '';
+            $age = isset($_POST["age"]) ? trim($_POST["age"]) : '';
+            $contact = isset($_POST["contactNum"]) ? trim($_POST["contactNum"]) : '';
+            $gender = isset($_POST["gender"]) ? trim($_POST["gender"]) : '';
+            $dob = isset($_POST["dateOfBirth"]) ? $_POST["dateOfBirth"] : '';
+            $email = isset($_POST["emailAdd"]) ? filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL) : '';
+        
+            if (empty($fullname) || empty($age) || empty($contact) || empty($gender) || empty($dob) || empty($email)) {
+                $errors[] = "All fields are required";
             }
-
-            header("Location: index.php");
-            exit();
-        } else {
-            foreach ($errors as $error) {
-                $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+        
+            if (strtolower($gender) !== 'male' && strtolower($gender) !== 'female') {
+                $errors[] = "Gender should be Male or Female";
+            }
+        
+            if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dob)) {
+                $errors[] = "Date of birth should be in YYYY-MM-DD format";
+            }
+        
+            if ($contact !== $contactNum) {
+                $errors[] = "Contact number does not match your original contact number";
+            }
+        
+            if ($email !== $emailAdd) {
+                $errors[] = "Email does not match your original email";
+            }
+        
+            if (empty($errors)) {
+                $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
+                $stmt = $conn->prepare($profileCheckQuery);
+                $stmt->bind_param('i', $userid);
+                $stmt->execute();
+                $existingProfile = $stmt->get_result()->fetch_assoc();
+        
+                if ($existingProfile) {
+                    $updateQuery = "UPDATE profile SET fullname=?, age=?, contactNum=?, gender=?, dateOfBirth=?, emailAdd=? WHERE userID=?";
+                    $stmt = $conn->prepare($updateQuery);
+                    $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
+                    $stmt->execute();
+                } else {
+                    $insertQuery = "INSERT INTO profile (fullname, age, contactNum, gender, dateOfBirth, emailAdd, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($insertQuery);
+                    $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
+                    $stmt->execute();
+                }
+                
+                header("Location: index.php");
+                exit();
+            } else {
+                foreach ($errors as $error) {
+                    $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                }
             }
         }
     } else {
@@ -83,6 +85,16 @@ if (isset($_SESSION["user"])) {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
             rel="stylesheet"
         />
+        <Script src="public/js/redirect.js"></script>
+        <script>
+            function showEditConfirm() {
+                document.getElementById("editConfirmation").style.display = "block"; 
+            }
+
+            function closeEditConfirm() {
+                document.getElementById("editConfirmation").style.display = "none";
+            }
+        </script>
         <style>
            .alertError {
                 padding: 10px;
@@ -139,7 +151,7 @@ if (isset($_SESSION["user"])) {
                         <input type="text" name="gender"/>
     
                         <label>
-                            Date of Birth:                        
+                            Date of Birth: YYYY-MM-DD                       
                         </label>
                         <input type="text" name="dateOfBirth"/>
     
@@ -149,8 +161,20 @@ if (isset($_SESSION["user"])) {
                         <input type="text" name="emailAdd" value="<?php echo isset($emailAdd) ? htmlspecialchars($emailAdd) : ''; ?>"/>
                     </div>
                 </div>
+                
+                <div class="editConfirmation" id="editConfirmation">
+                    <div class="editContent">
+                        <h2 class="editTitle">Edit Profile</h2>
+                        <p class="editMessage">Do you want to save this profile?</p>
 
-                <input type="submit" value="Save Changes"/>     
+                        <div class="buttonContainer">
+                            <input type="submit" name="submit" value="Yes"/>
+                            <input type="button" onclick="closeEditConfirm()" value="No">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="showEditConfirm()">Save</button>    
             </form>
         </div>
     </body>
