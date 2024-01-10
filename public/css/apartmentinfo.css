@@ -130,7 +130,12 @@ form input {
     outline: none;
 }
 
-input[type="button"] {
+button a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
     width: 200px;
     height: 35px;
     padding-top: 10px;
@@ -146,7 +151,7 @@ input[type="button"] {
     transition: all 0.3s ease;
 }
 
-input[type="button"]:hover {
+button:hover {
     cursor: pointer;
     color:  white;
     background-color: #3a403e;

@@ -9,7 +9,14 @@ function goSignOut() {
 }
 
 function goRent() {
-    window.location.href = 'rentapartment.php';
+    var urlParams = new URLSearchParams(window.location.search);
+    var apaNum = urlParams.get('apaNum');
+
+    if (apaNum) {
+        window.location.href = "rentapartment.php?apartNum=" + apartNum;
+    } else {
+        console.error("Apartment number not specified.");
+    }
 }
 
 function goEditInfo() {

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('public/php/apartmenttext.php');
+
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -126,7 +127,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment1.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&description=<?php echo urlencode($indentDesOne); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&description=<?php echo urlencode($indentDesOne); ?>&apartNum=1" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartOne">
@@ -138,7 +139,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment2.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&description=<?php echo urlencode($indentDesTwo); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&description=<?php echo urlencode($indentDesTwo); ?>&apartNum=2" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartTwo"> 
@@ -150,7 +151,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment3.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&description=<?php echo urlencode($indentDesThree); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&description=<?php echo urlencode($indentDesThree); ?>&apartNum=3" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartThree">
@@ -162,7 +163,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment4.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&description=<?php echo urlencode($indentDesFour); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&description=<?php echo urlencode($indentDesFour); ?>&apartNum=4" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartFour">
@@ -174,7 +175,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment5.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&description=<?php echo urlencode($indentDesFive); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&description=<?php echo urlencode($indentDesFive); ?>&apartNum=5" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartFive"> 
@@ -186,7 +187,7 @@ require_once('public/php/apartmenttext.php');
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment6.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&description=<?php echo urlencode($indentDesSix); ?>" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&description=<?php echo urlencode($indentDesSix); ?>&apartNum=6" class="overlayText">Rent</a>
                     </div>
                     <div>
                         <p class="apartmentDetails" id="infoApartSix">

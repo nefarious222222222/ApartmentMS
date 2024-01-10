@@ -3,6 +3,12 @@ require_once('public/php/apartmenttext.php');
 $imageSrc = $_GET['imageSrc'];
 $description = $_GET['description'];
 
+if (isset($_GET['apartNum'])) {
+    $apartNum = $_GET['apartNum'];
+} else {
+    echo "<script>console.log('Apartment Number Invalid')</script>";
+}
+
 if($description == $indentDesOne) {
     $firstDescription = $firstDesOne;
     $secondDescription = $secondDesOne;
@@ -56,7 +62,7 @@ else if ($description == $indentDesSix) {
                     echo 'showNotSigned();';
                 }
                 ?>
-            };   
+            };
         </script>
     </head>
     <body>
@@ -91,11 +97,10 @@ else if ($description == $indentDesSix) {
             </div>
 
             <form>
-                <input type="button" value="Back" onclick="goBack()"/>
+                <button type="button" onclick="goBack()">Back</button>
 
-                <input type="button" value="Rent" onclick="goRent()"/>     
+                <button type="button"><a href="rentapartment.php<?php if (isset($apartNum)) { echo '?apartNum=' . $apartNum; } ?>">Rent</a></button>     
             </form>
-
         </div>
     </body>
 </html>
