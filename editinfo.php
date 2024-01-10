@@ -55,14 +55,17 @@ if (isset($_SESSION["user"])) {
                     $stmt = $conn->prepare($updateQuery);
                     $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
                     $stmt->execute();
+
+                    echo "<script>alert('Profile updated successfully'); window.location='index.php';</script>";
                 } else {
                     $insertQuery = "INSERT INTO profile (fullname, age, contactNum, gender, dateOfBirth, emailAdd, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $conn->prepare($insertQuery);
                     $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
                     $stmt->execute();
+
+                    echo "<script>alert('Profile created successfully'); window.location='index.php';</script>";
                 }
-                
-                header("Location: index.php");
+
                 exit();
             } else {
                 foreach ($errors as $error) {
@@ -72,6 +75,33 @@ if (isset($_SESSION["user"])) {
         }
     } else {
         echo "0 results";
+    }
+}
+
+if (isset($_SESSION["user"])) {
+    $sql = "SELECT userID, contactNum, emailAdd FROM users";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userid = $row["userID"];
+        $contactNum = $row["contactNum"];
+        $emailAdd = $row["emailAdd"];
+
+        $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
+        $stmt = $conn->prepare($profileCheckQuery);
+        $stmt->bind_param('i', $userid);
+        $stmt->execute();
+        $existingProfile = $stmt->get_result()->fetch_assoc();
+
+        if ($existingProfile) {
+            $fullname = $existingProfile["fullname"];
+            $age = $existingProfile["age"];
+            $contact = $existingProfile["contactNum"];
+            $gender = $existingProfile["gender"];
+            $dob = $existingProfile["dateOfBirth"];
+            $email = $existingProfile["emailAdd"];
+        }
     }
 }
 ?>
@@ -131,12 +161,12 @@ if (isset($_SESSION["user"])) {
                         <label>
                             Full Name:                        
                         </label>
-                        <input type="text" name="fullname"/>
+                        <input type="text" name="fullname" value="<?php echo isset($fullname) ? $fullname : ''; ?>" required/>
     
                         <label>
                             Age:                        
                         </label>
-                        <input type="number" class="no-spinner" name="age"/>
+                        <input type="number" class="no-spinner" name="age" value="<?php echo isset($age) ? $age : ''; ?>" required/>
     
                         <label>
                             Contact Number:                        
@@ -148,12 +178,12 @@ if (isset($_SESSION["user"])) {
                         <label>
                             Gender: Male or Female                       
                         </label>
-                        <input type="text" name="gender"/>
+                        <input type="text" name="gender" value="<?php echo isset($gender) ? $gender : ''; ?>" required/>
     
                         <label>
                             Date of Birth: YYYY-MM-DD                       
                         </label>
-                        <input type="text" name="dateOfBirth"/>
+                        <input type="text" name="dateOfBirth" value="<?php echo isset($dob) ? $dob : ''; ?>" required/>
     
                         <label>
                             Email Address:                        
