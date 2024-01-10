@@ -47,7 +47,7 @@ require_once('public/php/apartmenttext.php');
                     echo 'if (targetId === "settings") {';
                     echo '  showChooseSettings();';
                     echo '} else if (targetId === "profile") {';
-                    echo '  window.location.href = "profile.html";';
+                    echo '  window.location.href = "profile.php";';
                     echo '}';
                 }
                 ?>

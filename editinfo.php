@@ -97,10 +97,8 @@ if (isset($_SESSION["user"])) {
         if ($existingProfile) {
             $fullname = $existingProfile["fullname"];
             $age = $existingProfile["age"];
-            $contact = $existingProfile["contactNum"];
             $gender = $existingProfile["gender"];
             $dob = $existingProfile["dateOfBirth"];
-            $email = $existingProfile["emailAdd"];
         }
     }
 }
