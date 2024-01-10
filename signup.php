@@ -79,9 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = "INSERT INTO users (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssss', $username, $password, $email, $contact);
-
+        
         if ($stmt->execute()) {
-            header("Location: signin.php");
+            echo "<script>alert('Account successfully created!'); window.location='signin.php';</script>";
             exit();
         } else {
             $errors[] = "Account registration failed". $stmt->error;

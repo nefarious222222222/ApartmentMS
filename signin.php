@@ -3,8 +3,6 @@ session_start();
 if (isset($_SESSION["user"])) {
    header("Location: index.php");
 }
-?>
-<?php
 require_once('public/php/database.php');
 
 function validateUser($conn, $username, $password) {
@@ -40,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_start();
             $_SESSION["user"] = $username;
             session_regenerate_id(true);
-            header("Location: index.php");
+            echo "<script>alert('Account successfully singed in!'); window.location='index.php';</script>";
             die();
         } else {
             $errorDiv .= "<div class='alertError'><p>Invalid username or password</p></div>";
