@@ -1,19 +1,24 @@
 <?php
 session_start();
+
 if (isset($_SESSION["user"])) {
-   header("Location: index.php");
+    header("Location: index.php");
+    exit;
 }
+
 require_once('public/php/database.php');
 
 function validateUser($conn, $username, $password) {
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT userID, password FROM users WHERE username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return password_verify($password, $row['password']);
+        if (password_verify($password, $row['password'])) {
+            return $row['userID'];
+        }
     }
     return false;
 }
@@ -34,12 +39,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errorDiv .= "<div class='alertError'><p>$error</p></div>";
         }
     } else {
-        if (validateUser($conn, $username, $password)) {
+        $userId = validateUser($conn, $username, $password);
+
+        if ($userId !== false) {
             session_start();
             $_SESSION["user"] = $username;
+            $_SESSION["userID"] = $userId;
+
             session_regenerate_id(true);
-            echo "<script>alert('Account successfully singed in!'); window.location='index.php';</script>";
-            die();
+
+            echo "<script>alert('Account successfully signed in!'); window.location='index.php';</script>";
+            exit;
         } else {
             $errorDiv .= "<div class='alertError'><p>Invalid username or password</p></div>";
         }

@@ -3,8 +3,13 @@ session_start();
 require_once('public/php/database.php');
 
 if (isset($_SESSION["user"])) {
-    $sql = "SELECT userID, username, contactNum, emailAdd FROM users";
-    $result = $conn->query($sql);
+    $username = $_SESSION["user"];
+
+    $sql = "SELECT userID, username, contactNum, emailAdd FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -28,7 +33,7 @@ if (isset($_SESSION["user"])) {
             $email = $existingProfile["emailAdd"];
         }
         else {
-            echo "<script>alert('You do not yet have a profile. Please first go to settings and change your profile.'); window.location='index.php';</script>";
+            echo "<script>alert('You do not yet have a profile. Please first go to settings and create or update your profile.'); window.location='index.php';</script>";
         }
     }
 }

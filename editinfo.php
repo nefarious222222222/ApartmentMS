@@ -6,8 +6,13 @@ $errors = [];
 $errorDiv = '';
 
 if (isset($_SESSION["user"])) {
-    $sql = "SELECT userID, contactNum, emailAdd FROM users";
-    $result = $conn->query($sql);
+    $username = $_SESSION["user"];
+
+    $sql = "SELECT userID, contactNum, emailAdd FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -45,28 +50,28 @@ if (isset($_SESSION["user"])) {
         
             if (empty($errors)) {
                 $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
-                $stmt = $conn->prepare($profileCheckQuery);
-                $stmt->bind_param('i', $userid);
-                $stmt->execute();
-                $existingProfile = $stmt->get_result()->fetch_assoc();
+                $stmtProfile = $conn->prepare($profileCheckQuery);
+                $stmtProfile->bind_param('i', $userid);
+                $stmtProfile->execute();
+                $existingProfile = $stmtProfile->get_result()->fetch_assoc();
         
                 if ($existingProfile) {
                     $updateQuery = "UPDATE profile SET fullname=?, age=?, contactNum=?, gender=?, dateOfBirth=?, emailAdd=? WHERE userID=?";
-                    $stmt = $conn->prepare($updateQuery);
-                    $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
-                    $stmt->execute();
+                    $stmtUpdate = $conn->prepare($updateQuery);
+                    $stmtUpdate->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
+                    $stmtUpdate->execute();
 
                     echo "<script>alert('Profile updated successfully'); window.location='index.php';</script>";
+                    exit();
                 } else {
                     $insertQuery = "INSERT INTO profile (fullname, age, contactNum, gender, dateOfBirth, emailAdd, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($insertQuery);
-                    $stmt->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
-                    $stmt->execute();
+                    $stmtInsert = $conn->prepare($insertQuery);
+                    $stmtInsert->bind_param('sissssi', $fullname, $age, $contact, $gender, $dob, $email, $userid);
+                    $stmtInsert->execute();
 
                     echo "<script>alert('Profile created successfully'); window.location='index.php';</script>";
+                    exit();
                 }
-
-                exit();
             } else {
                 foreach ($errors as $error) {
                     $errorDiv .= "<div class='alertError'><p>$error</p></div>";
@@ -79,8 +84,13 @@ if (isset($_SESSION["user"])) {
 }
 
 if (isset($_SESSION["user"])) {
-    $sql = "SELECT userID, contactNum, emailAdd FROM users";
-    $result = $conn->query($sql);
+    $username = $_SESSION["user"];
+
+    $sql = "SELECT userID, contactNum, emailAdd FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -89,10 +99,10 @@ if (isset($_SESSION["user"])) {
         $emailAdd = $row["emailAdd"];
 
         $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
-        $stmt = $conn->prepare($profileCheckQuery);
-        $stmt->bind_param('i', $userid);
-        $stmt->execute();
-        $existingProfile = $stmt->get_result()->fetch_assoc();
+        $stmtProfile = $conn->prepare($profileCheckQuery);
+        $stmtProfile->bind_param('i', $userid);
+        $stmtProfile->execute();
+        $existingProfile = $stmtProfile->get_result()->fetch_assoc();
 
         if ($existingProfile) {
             $fullname = $existingProfile["fullname"];
