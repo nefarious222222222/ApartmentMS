@@ -5,6 +5,7 @@ $description = $_GET['description'];
 
 if (isset($_GET['apartNum'])) {
     $apartNum = $_GET['apartNum'];
+    echo "<script>console.log($apartNum)</script>";
 } else {
     echo "<script>console.log('Apartment Number Invalid')</script>";
 }

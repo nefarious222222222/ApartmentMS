@@ -169,12 +169,12 @@ if (isset($_SESSION["user"])) {
                         <label>
                             Full Name:                        
                         </label>
-                        <input type="text" name="fullname" value="<?php echo isset($fullname) ? $fullname : ''; ?>" required/>
+                        <input type="text" name="fullname" value="<?php echo isset($fullname) ? $fullname : ''; ?>"/>
     
                         <label>
                             Age:                        
                         </label>
-                        <input type="number" class="no-spinner" name="age" value="<?php echo isset($age) ? $age : ''; ?>" required/>
+                        <input type="number" class="no-spinner" name="age" value="<?php echo isset($age) ? $age : ''; ?>"/>
     
                         <label>
                             Contact Number:                        
@@ -186,12 +186,12 @@ if (isset($_SESSION["user"])) {
                         <label>
                             Gender: Male or Female                       
                         </label>
-                        <input type="text" name="gender" value="<?php echo isset($gender) ? $gender : ''; ?>" required/>
+                        <input type="text" name="gender" value="<?php echo isset($gender) ? $gender : ''; ?>"/>
     
                         <label>
                             Date of Birth: YYYY-MM-DD                       
                         </label>
-                        <input type="text" name="dateOfBirth" value="<?php echo isset($dob) ? $dob : ''; ?>" required/>
+                        <input type="text" name="dateOfBirth" value="<?php echo isset($dob) ? $dob : ''; ?>"/>
     
                         <label>
                             Email Address:                        
