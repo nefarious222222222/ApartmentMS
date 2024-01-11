@@ -11,126 +11,152 @@ if (!$apartNum) {
     exit();
 }
 
-if (isset($_SESSION["user"])) {
-    $username = $_SESSION["user"];
+$apartmentCheckQuery = "SELECT status FROM apartment WHERE apartmentID = ?";
+$stmtApartment = $conn->prepare($apartmentCheckQuery);
+$stmtApartment->bind_param('i', $apartNum);
+$stmtApartment->execute();
+$resultApartment = $stmtApartment->get_result();
 
-    $sql = "SELECT userID, contactNum, emailAdd FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+if ($resultApartment && $resultApartment->num_rows > 0) {
+    $rowApartment = $resultApartment->fetch_assoc();
+    $apartmentStatus = $rowApartment["status"];
 
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $userid = $row["userID"];
-        $contactNum = $row["contactNum"];
-        $emailAdd = $row["emailAdd"];
-
-        $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
-        $stmtProfile = $conn->prepare($profileCheckQuery);
-        $stmtProfile->bind_param('i', $userid);
-        $stmtProfile->execute();
-        $existingProfile = $stmtProfile->get_result()->fetch_assoc();
-
-        if (!$existingProfile) {
-            echo "<script>alert('Please set up your profile first!');  window.location='index.php';</script>";
-            exit();
-        }
-
-        $fullname = $existingProfile["fullname"];
-        $dob = $existingProfile["dateOfBirth"];
-    }
-    
-    if (isset($_POST["submit"])) {
-        $fName = isset($_POST["fullname"]) ? trim($_POST["fullname"]) : '';
-        $dateOB = isset($_POST["dateOfBirth"]) ? $_POST["dateOfBirth"] : '';
-        $contact = isset($_POST["contactNum"]) ? trim($_POST["contactNum"]) : '';  
-        $email = isset($_POST["emailAdd"]) ? filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL) : '';
-        $moveIn = isset($_POST["moveIn"]) ? $_POST["moveIn"] : '';
-        $moveOut = isset($_POST["moveOut"]) ? $_POST["moveOut"] : '';  
-        $validIdType = isset($_POST["validIdType"]) ? trim($_POST["validIdType"]) : '';
-        $validIdNum = isset($_POST["validIdNum"]) ? trim($_POST["validIdNum"]) : '';
-        $paymentMethod = isset($_POST["paymentMethod"]) ? trim($_POST["paymentMethod"]) : '';
-    
-        if (empty($fName) || empty($dateOB) || empty($contact) || empty($email) || empty($moveIn) || empty($moveOut) || empty($validIdType) || empty($validIdNum) || empty($paymentMethod)) {
-            $errors[] = "All fields are required";
-        }
-    
-        if ($fName !== $fullname) {
-            $errors[] = "Fullname does not match your original fullname";
-        }
-
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dateOB)) {
-            $errors[] = "Date of birth should be in YYYY-MM-DD format";
-        }
-    
-        if ($dob !== $dateOB) {
-            $errors[] = "Date of birth does not match your original date of birth";
-        }
-    
-        if ($contact !== $contactNum) {
-            $errors[] = "Contact number does not match your original contact number";
-        }
-    
-        if ($email !== $emailAdd) {
-            $errors[] = "Email does not match your original email";
-        }
-
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveIn)) {
-            $errors[] = "Move In should be in YYYY-MM-DD format";
-        }
-
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveOut)) {
-            $errors[] = "Move Out should be in YYYY-MM-DD format";
-        }
+    if ($apartmentStatus == "available") {
+        if (isset($_SESSION["user"])) {
+            $username = $_SESSION["user"];
         
-        if (strlen($validIdNum) != 10) {
-            $errors[] = "Valid Id should be exactly 10 digits";
-        }
-
-        if (strtolower($paymentMethod) !== 'gcash' && strtolower($paymentMethod) !== 'cash') {
-            $errors[] = "Payment method should be Gcash or Cash";
-        }
-
-        if (empty($errors)) {
-            $rentCheckQuery = "SELECT * FROM rent WHERE userID = ?";
-            $stmtRent = $conn->prepare($rentCheckQuery);
-            $stmtRent->bind_param('i', $userid);
-            $stmtRent->execute();
-            $existingRent = $stmtRent->get_result()->fetch_assoc();
-    
-            if ($existingRent) {
-                echo "<script>alert('This transaction has already been created'); window.location='index.php';</script>";
-                exit();
-            } else {
-                $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmtInsert = $conn->prepare($insertQuery);
-                $stmtInsert->bind_param('sssssssssii', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum);
-
-                if ($stmtInsert->execute()) {
-                    $updateApartmentStatusQuery = "UPDATE apartment SET status = 'unavailable' WHERE apartmentID = ?";
-                    $stmtUpdateStatus = $conn->prepare($updateApartmentStatusQuery);
-                    $stmtUpdateStatus->bind_param('i', $apartNum);
-
-                    if ($stmtUpdateStatus->execute()) {
-                        echo "<script>alert('Profile created successfully'); window.location='index.php';</script>";
+            $sql = "SELECT userID, contactNum, emailAdd FROM users WHERE username = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        
+            if ($result && $result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $userid = $row["userID"];
+                $contactNum = $row["contactNum"];
+                $emailAdd = $row["emailAdd"];
+        
+                $profileCheckQuery = "SELECT * FROM profile WHERE userID = ?";
+                $stmtProfile = $conn->prepare($profileCheckQuery);
+                $stmtProfile->bind_param('i', $userid);
+                $stmtProfile->execute();
+                $existingProfile = $stmtProfile->get_result()->fetch_assoc();
+        
+                if (!$existingProfile) {
+                    echo "<script>alert('Please set up your profile first!');  window.location='index.php';</script>";
+                    exit();
+                }
+        
+                $fullname = $existingProfile["fullname"];
+                $dob = $existingProfile["dateOfBirth"];
+            }
+            
+            if (isset($_POST["submit"])) {
+                $fName = isset($_POST["fullname"]) ? trim($_POST["fullname"]) : '';
+                $dateOB = isset($_POST["dateOfBirth"]) ? $_POST["dateOfBirth"] : '';
+                $contact = isset($_POST["contactNum"]) ? trim($_POST["contactNum"]) : '';  
+                $email = isset($_POST["emailAdd"]) ? filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL) : '';
+                $moveIn = isset($_POST["moveIn"]) ? $_POST["moveIn"] : '';
+                $moveOut = isset($_POST["moveOut"]) ? $_POST["moveOut"] : '';  
+                $validIdType = isset($_POST["validIdType"]) ? trim($_POST["validIdType"]) : '';
+                $validIdNum = isset($_POST["validIdNum"]) ? trim($_POST["validIdNum"]) : '';
+                $paymentMethod = isset($_POST["paymentMethod"]) ? trim($_POST["paymentMethod"]) : '';
+            
+                if (empty($fName) || empty($dateOB) || empty($contact) || empty($email) || empty($moveIn) || empty($moveOut) || empty($validIdType) || empty($validIdNum) || empty($paymentMethod)) {
+                    $errors[] = "All fields are required";
+                }
+            
+                if ($fName !== $fullname) {
+                    $errors[] = "Fullname does not match your original fullname";
+                }
+        
+                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dateOB)) {
+                    $errors[] = "Date of birth should be in YYYY-MM-DD format";
+                }
+            
+                if ($dob !== $dateOB) {
+                    $errors[] = "Date of birth does not match your original date of birth";
+                }
+            
+                if ($contact !== $contactNum) {
+                    $errors[] = "Contact number does not match your original contact number";
+                }
+            
+                if ($email !== $emailAdd) {
+                    $errors[] = "Email does not match your original email";
+                }
+        
+                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveIn)) {
+                    $errors[] = "Move In should be in YYYY-MM-DD format";
+                }
+        
+                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveOut)) {
+                    $errors[] = "Move Out should be in YYYY-MM-DD format";
+                } else {
+                    $moveInTimestamp = strtotime($moveIn);
+                    $moveOutTimestamp = strtotime($moveOut);
+                
+                    $monthsDifference = floor(($moveOutTimestamp - $moveInTimestamp) / (30 * 24 * 60 * 60));
+                
+                    if ($monthsDifference < 3) {
+                        $errors[] = "You need to rent the apartment for atleast 3 months";
+                    }
+                }
+                
+                if (strlen($validIdNum) != 10) {
+                    $errors[] = "Valid Id should be exactly 10 digits";
+                }
+        
+                if (strtolower($paymentMethod) !== 'gcash' && strtolower($paymentMethod) !== 'cash') {
+                    $errors[] = "Payment method should be Gcash or Cash";
+                }
+        
+                if (empty($errors)) {
+                    $rentCheckQuery = "SELECT * FROM rent WHERE userID = ?";
+                    $stmtRent = $conn->prepare($rentCheckQuery);
+                    $stmtRent->bind_param('i', $userid);
+                    $stmtRent->execute();
+                    $existingRent = $stmtRent->get_result()->fetch_assoc();
+            
+                    if ($existingRent) {
+                        echo "<script>alert('This transaction has already been created'); window.location='index.php';</script>";
+                        exit();
                     } else {
-                        echo "<script>alert('Failed to update apartment status');</script>";
+                        $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $stmtInsert = $conn->prepare($insertQuery);
+                        $stmtInsert->bind_param('sssssssssii', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum);
+        
+                        if ($stmtInsert->execute()) {
+                            $updateApartmentStatusQuery = "UPDATE apartment SET status = 'unavailable' WHERE apartmentID = ?";
+                            $stmtUpdateStatus = $conn->prepare($updateApartmentStatusQuery);
+                            $stmtUpdateStatus->bind_param('i', $apartNum);
+        
+                            if ($stmtUpdateStatus->execute()) {
+                                echo "<script>alert('Profile created successfully'); window.location='index.php';</script>";
+                            } else {
+                                echo "<script>alert('Failed to update apartment status');</script>";
+                            }
+                        } else {
+                            echo "<script>alert('Failed to insert into rent table');</script>";
+                        }
+        
+                        exit();
                     }
                 } else {
-                    echo "<script>alert('Failed to insert into rent table');</script>";
+                    foreach ($errors as $error) {
+                        $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                    }
                 }
-
-                exit();
             }
         } else {
-            foreach ($errors as $error) {
-                $errorDiv .= "<div class='alertError'><p>$error</p></div>";
-            }
+            echo "0 results";
         }
+    } else {
+        echo "<script>alert('Apartment is currently being rented'); windows.location='index.php';</script>";
     }
 } else {
-    echo "0 results";
+    echo "<script>alert('Apartment not found')</script>";
 }
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">

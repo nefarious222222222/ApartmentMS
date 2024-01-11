@@ -2,6 +2,7 @@
 session_start();
 require_once('public/php/apartmenttext.php');
 
+echo "PUTANG INA MO GAWIN MO YUNG MAINTENANCE SHIT MAMAYA";
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
