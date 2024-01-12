@@ -45,10 +45,11 @@ input:hover {
     box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
 }
 
-input[type="button"] {
+button[type="button"] {
     width: 300px;
     height: 35px;
     margin-top: 70px;
+    margin-bottom: 60px;
     padding-top: 10px;
     margin-left: 100px;
     padding-bottom: 30px;
@@ -58,9 +59,10 @@ input[type="button"] {
     color: #3a403e;
     font-weight: 600;
     font-size: 18px;
+    transition: all 0.3s ease;
 }
 
-input[type="button"]:hover {
+button[type="button"]:hover {
     cursor: pointer;
     background-color: #3a403e;
     color: white;
@@ -70,6 +72,67 @@ input[type="button"]:hover {
 
 body {
     padding: 25px;
+}
+
+/* Alert message css */
+
+
+.maintenanceConfirmation {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+  
+.maintenanceContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+  
+.maintenanceContent:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+  
+.maintenanceTitle {
+    margin-top: 0;
+}
+  
+.buttonContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+  
+.buttonContainer input {
+    margin: 0 10px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
+    border: none;
+    font-weight: 600;
+    background-color: #3a403e;
+    transition: all 0.3s ease;
+}
+  
+.buttonContainer input:hover {
+    cursor: pointer;
+    color:  #3a403e;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5); 
 }
 
 /* Background Css */
@@ -86,3 +149,21 @@ html {
 		repeating-conic-gradient(from 0deg at 50% 50%, #fff0 0 25%, var(--s1) 25% 29%, #fff0 30% 70%, var(--s1) 71% 75%, #fff0 75% 100%) var(--gp), 
 		repeating-conic-gradient(from 0deg at 50% 50%, var(--c1) 0 25%, var(--c2) 0% 50%, var(--c1) 0 75%, var(--c2) 0% 100% ) var(--gp);
 }
+
+ /* Scrollbar look */
+ ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #cccccc;
+  }
