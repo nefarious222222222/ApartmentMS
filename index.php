@@ -102,7 +102,7 @@ echo "PUTANG INA MO GAWIN MO YUNG MAINTENANCE SHIT MAMAYA";
                     </div>
 
                     <ul class="menu">
-                        <li><a href="about.html">About</a></li>
+                        <li><a href="about.php">About</a></li>
                         <li><a id="settings" onclick="checkSignIn(event)">Settings</a></li>
                         <li><a id="profile" onclick="checkSignIn(event)">Profile</a></li>
                         <?php
