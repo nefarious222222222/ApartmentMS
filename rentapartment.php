@@ -153,10 +153,15 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             echo "0 results";
         }
     } else {
-        echo "<script>alert('Apartment is currently being rented'); windows.location='index.php';</script>";
+        $myValue = "unavailable";
+        echo "<script>alert('The selected apartment is currently being rented'); console.log('" . json_encode($myValue) . "');</script>";
     }
 } else {
     echo "<script>alert('Apartment not found')</script>";
+}
+
+if ($myValue === "unavailable") {
+    echo "<script>window.location.href = 'index.php';</script>";
 }
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">

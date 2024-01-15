@@ -28,14 +28,14 @@ if (isset($_SESSION["user"])) {
                 if ($apartmentExists) {
                     $apaStatCheckQuery = "SELECT status FROM apartment WHERE apartmentID = ?";
                     $stmtApaStat = $conn->prepare($apaStatCheckQuery);
-                    $stmtApaStat->bind_param('i', $apartmentID); // Corrected variable name
+                    $stmtApaStat->bind_param('i', $apartmentID);
                     $stmtApaStat->execute();
                     $resultApaStat = $stmtApaStat->get_result();
 
                     echo "<script>Apartment Exists</script>";
                     if ($resultApaStat && $resultApaStat->num_rows > 0) {
                         $rowApaStat = $resultApaStat->fetch_assoc();
-                        $apartmentStatus = $rowApaStat["status"]; // Corrected variable name
+                        $apartmentStatus = $rowApaStat["status"];
 
                         if ($apartmentStatus == "unavailable") {
                             $insertQuery = "INSERT INTO maintenance (userID, apartmentID, about, request) VALUES (?, ?, ?, ?)";
@@ -59,7 +59,7 @@ if (isset($_SESSION["user"])) {
                 }
             }
         } else {
-            echo "<script>alert('Something went wrong');</script>";
+            echo "<script>console.log('Loaded successfully');;</script>";
         }
     } else {
         echo "0 results";
