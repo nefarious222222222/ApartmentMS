@@ -1,10 +1,10 @@
 <?php
 session_start();
+
 if (isset($_SESSION["user"])) {
    header("Location: index.php");
 }
-?>
-<?php
+
 require_once('public/php/database.php');
 
 function emailExists($conn, $email) {
