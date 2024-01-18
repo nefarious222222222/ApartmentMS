@@ -1,6 +1,23 @@
 <?php
 session_start();
 require_once('public/php/apartmenttext.php');
+require_once('public/php/database.php');
+
+if (isset($_SESSION["user"])) {
+    $username = $_SESSION["user"];
+
+    $sql = "SELECT userType FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userType = $row["userType"];
+        echo $userType;
+    }
+}
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>

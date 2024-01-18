@@ -36,10 +36,6 @@ if (isset($_SESSION["user"])) {
                 $errors[] = "Gender should be Male or Female";
             }
         
-            if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dob)) {
-                $errors[] = "Date of birth should be in YYYY-MM-DD format";
-            }
-        
             if ($contact !== $contactNum) {
                 $errors[] = "Contact number does not match your original contact number";
             }
@@ -184,14 +180,17 @@ if (isset($_SESSION["user"])) {
                     
                     <div class="inputRow">
                         <label>
-                            Gender: Male or Female                       
+                            Gender:                       
                         </label>
-                        <input type="text" name="gender" value="<?php echo isset($gender) ? $gender : ''; ?>"/>
+                        <select name="gender">
+                            <option value="male" <?php echo (isset($gender) && $gender == 'male') ? 'selected' : ''; ?>>Male</option>
+                            <option value="female" <?php echo (isset($gender) && $gender == 'female') ? 'selected' : ''; ?>>Female</option>
+                        </select>
     
                         <label>
-                            Date of Birth: YYYY-MM-DD                       
+                            Date of Birth:                   
                         </label>
-                        <input type="text" name="dateOfBirth" value="<?php echo isset($dob) ? $dob : ''; ?>"/>
+                        <input type="date" name="dateOfBirth" value="<?php echo isset($dob) ? $dob : ''; ?>"/>
     
                         <label>
                             Email Address:                        

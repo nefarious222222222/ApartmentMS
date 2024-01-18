@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $confirmPass = $_POST["confirmPass"];
     $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
     $contact = $_POST["contactNum"];
+    $userType = "normal"
 
     if (empty($username) || empty($password) || empty($confirmPass) || empty($email) || empty($contact)) {
         $errors[] = "All fields are required";
@@ -76,9 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
         $contact = $_POST["contactNum"];
 
-        $sql = "INSERT INTO users (username, password, emailAdd, contactNum) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, emailAdd, contactNum, userType) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssss', $username, $password, $email, $contact);
+        $stmt->bind_param('sssss', $username, $password, $email, $contact, $userType);
         
         if ($stmt->execute()) {
             echo "<script>alert('Account successfully created!'); window.location='signin.php';</script>";

@@ -87,21 +87,13 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                     $errors[] = "Email does not match your original email";
                 }
         
-                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveIn)) {
-                    $errors[] = "Move In should be in YYYY-MM-DD format";
-                }
-        
-                if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $moveOut)) {
-                    $errors[] = "Move Out should be in YYYY-MM-DD format";
-                } else {
-                    $moveInTimestamp = strtotime($moveIn);
-                    $moveOutTimestamp = strtotime($moveOut);
-                
-                    $monthsDifference = floor(($moveOutTimestamp - $moveInTimestamp) / (30 * 24 * 60 * 60));
-                
-                    if ($monthsDifference < 3) {
-                        $errors[] = "You need to rent the apartment for atleast 3 months";
-                    }
+                $moveInTimestamp = strtotime($moveIn);
+                $moveOutTimestamp = strtotime($moveOut);
+
+                $monthsDifference = floor(($moveOutTimestamp - $moveInTimestamp) / (30 * 24 * 60 * 60));
+
+                if ($monthsDifference < 2) {
+                    $errors[] = "You need to rent the apartment for at least 2 months";
                 }
                 
                 if (strlen($validIdNum) != 10) {
@@ -153,14 +145,14 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             echo "0 results";
         }
     } else {
-        $myValue = "unavailable";
-        echo "<script>alert('The selected apartment is currently being rented'); console.log('" . json_encode($myValue) . "');</script>";
+        $apartmentStatus = "unavailable";
+        echo "<script>alert('The selected apartment is currently being rented'); console.log('" . json_encode($apartmentStatus) . "');</script>";
     }
 } else {
     echo "<script>alert('Apartment not found')</script>";
 }
 
-if ($myValue === "unavailable") {
+if ($apartmentStatus === "unavailable") {
     echo "<script>window.location.href = 'index.php';</script>";
 }
 ?>
@@ -197,6 +189,20 @@ if ($myValue === "unavailable") {
                 color: rgb(62, 21, 21);
             }
         </style>
+        <script>
+           document.addEventListener('DOMContentLoaded', function () {
+                var today = new Date().toISOString().split('T')[0];
+                document.getElementById('moveIn').setAttribute('min', today);
+                document.getElementById('moveOut').setAttribute('min', today);
+
+                document.getElementById('moveIn').addEventListener('input', function () {
+                    var moveInDate = new Date(this.value);
+                    moveInDate.setMonth(moveInDate.getMonth() + 2);
+
+                    document.getElementById('moveOut').setAttribute('min', moveInDate.toISOString().split('T')[0]);
+                });
+            });
+        </script>
     </head>
     <body>
          <h1 id="title" class="title">
@@ -243,22 +249,29 @@ if ($myValue === "unavailable") {
                     </div>
                     
                     <div class="inputRow">
-                        <label>
-                            Move In (Date): YYYY-MM-DD                          
+                        <label for="moveIn">
+                            Move In (Date):                        
                         </label>
-                        <input type="text" name="moveIn"/>
+                        <input type="date" name="moveIn" id="moveIn"/>
         
-                        <label>
-                            Move Out (Date): YYYY-MM-DD                          
+                        <label for="moveOut">
+                            Move Out (Date):                      
                         </label>
-                        <input type="text" name="moveOut"/>
+                        <input type="date" name="moveOut" id="moveOut"/>
     
                         <div class="validInfo">
                             <div class="groupOne">
                                 <label>
                                     Valid ID Type:                        
                                 </label>
-                                <input class="validText" type="text" name="validIdType"/>
+                                <select name="validIdType">
+                                    <option value="" selected disabled>Select Valid ID</option>
+                                    <option value="nationalID">National ID</option>
+                                    <option value="postalID">Postal ID</option>
+                                    <option value="prcID">PRC ID</option>
+                                    <option value="UMID">UMID</option>
+                                    <option value="sssID">SSS ID</option>
+                                </select>
                             </div>
                                 
                             <div class="groupTwo">
@@ -270,9 +283,14 @@ if ($myValue === "unavailable") {
                         </div>
     
                         <label>
-                            Payment Method: Gcash or Cash                       
+                            Payment Method:                     
                         </label>
-                        <input class="no-spinner" type="text" name="paymentMethod"/>
+                        <select name="paymentMethod">
+                            <option value="" selected disabled>Select Payment Method</option>
+                            <option value="gcash">Gcash</option>
+                            <option value="cash">Cash</option>
+                            <option value="creditCard">Credit Card</option>
+                        </select>
                     </div>
 
                     <div class="rentConfirmation" id="rentConfirmation">

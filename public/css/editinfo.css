@@ -55,6 +55,21 @@ input:hover {
     box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
 }
 
+select {
+  width: 100%;
+  padding: 7px;
+  margin-bottom: 70px;
+  border: none;
+  border: 2px solid gray;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+select:hover {
+  box-shadow: 0 0 7px 5px rgba(255, 255, 255, 0.5);
+}
+
 button {
     width: 300px;
     height: 35px;
