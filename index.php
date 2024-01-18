@@ -18,6 +18,26 @@ if (isset($_SESSION["user"])) {
         echo $userType;
     }
 }
+
+$sqlApart = "SELECT status FROM apartment";
+$stmtApart = $conn->prepare($sqlApart);
+$stmtApart->execute();
+$resultApart = $stmtApart->get_result();
+
+$statuses = [];
+
+if ($resultApart && $resultApart->num_rows > 0) {
+    $i = 1;
+
+    while ($row = $resultApart->fetch_assoc()) {
+        $status = $row["status"];
+        $variableName = "statApart" . $i++;
+        $$variableName = $status;
+        $statuses[$variableName] = $status;
+    }
+} else {
+    echo "No apartments found.";
+}
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -146,6 +166,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&description=<?php echo urlencode($indentDesOne); ?>&apartNum=1" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart1;?></span></p>
                         <p class="apartmentDetails" id="infoApartOne">
                             <?php echo $indentDesOne; ?>
                         </p>
@@ -158,6 +179,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&description=<?php echo urlencode($indentDesTwo); ?>&apartNum=2" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart2;?></span></p>
                         <p class="apartmentDetails" id="infoApartTwo"> 
                             <?php echo $indentDesTwo; ?>
                         </p>
@@ -170,6 +192,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&description=<?php echo urlencode($indentDesThree); ?>&apartNum=3" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart3;?></span></p>
                         <p class="apartmentDetails" id="infoApartThree">
                             <?php echo $indentDesThree; ?>     
                         </p>
@@ -182,6 +205,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&description=<?php echo urlencode($indentDesFour); ?>&apartNum=4" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart4;?></span></p>
                         <p class="apartmentDetails" id="infoApartFour">
                             <?php echo $indentDesFour; ?>
                         </p>
@@ -194,6 +218,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&description=<?php echo urlencode($indentDesFive); ?>&apartNum=5" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart5;?></span></p>
                         <p class="apartmentDetails" id="infoApartFive"> 
                             <?php echo $indentDesFive; ?>
                         </p>
@@ -206,6 +231,7 @@ if (isset($_SESSION["user"])) {
                         <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&description=<?php echo urlencode($indentDesSix); ?>&apartNum=6" class="overlayText">Rent</a>
                     </div>
                     <div>
+                        <p class="status">Status: <span class="statusValue"><?php echo $statApart6;?></span></p>
                         <p class="apartmentDetails" id="infoApartSix">
                             <?php echo $indentDesSix; ?>
                         </p>

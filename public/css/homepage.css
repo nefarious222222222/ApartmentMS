@@ -295,9 +295,20 @@ ul {
     opacity: 1;
 }
 
+.status {
+    margin: 10px 0 0 0;
+    color: white;
+    font-weight: bold;
+}
+
+.statusValue {
+    font-weight: lighter;
+    font-style: italic;
+}
+
 .apartmentDetails {
     text-align: justify;
-    margin-top: 30px;
+    margin-top: 10px;
     font-weight: lighter;
     color: white;
     font-size: 15px;
