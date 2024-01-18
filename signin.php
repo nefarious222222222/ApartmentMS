@@ -43,13 +43,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($userId !== false) {
             session_start();
-            $_SESSION["user"] = $username;
-            $_SESSION["userID"] = $userId;
 
-            session_regenerate_id(true);
+            $userTypeSql = "SELECT userType FROM users WHERE username = ?";
+            $userTypeStmt = $conn->prepare($userTypeSql);
+            $userTypeStmt->bind_param('s', $username);
+            $userTypeStmt->execute();
+            $userTypeResult = $userTypeStmt->get_result();
 
-            echo "<script>alert('Account successfully signed in!'); window.location='index.php';</script>";
-            exit;
+            if ($userTypeResult && $userTypeResult->num_rows > 0) {
+                $row = $userTypeResult->fetch_assoc();
+                $userType = $row["userType"];
+                
+                if($userType == "admin"){
+                    $_SESSION["user"] = $username;
+                    $_SESSION["userID"] = $userId;
+                    session_regenerate_id(true);
+                    echo "<script>alert('Admin has logged in!'); window.location='index.php';</script>";
+                    exit;
+                } else {
+                    $_SESSION["user"] = $username;
+                    $_SESSION["userID"] = $userId;
+                    echo "<script>alert('Account successfully signed in!'); window.location='index.php';</script>";
+                    session_regenerate_id(true);
+                    exit;
+                }
+            }
         } else {
             $errorDiv .= "<div class='alertError'><p>Invalid username or password</p></div>";
         }

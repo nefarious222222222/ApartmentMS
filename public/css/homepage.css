@@ -239,10 +239,10 @@ ul {
 }
 
 .aboutApartment {
-    height: 580px;
+    height: fit-content;
     margin: 20px 30px 50px 30px;
     flex-wrap: wrap;
-    padding: 15px 35px 20px 35px;
+    padding: 15px 35px 40px 35px;
     max-width: 340px;
     border-radius: 5px;
     transition: box-shadow 0.3s ease;
@@ -295,8 +295,8 @@ ul {
     opacity: 1;
 }
 
-.status {
-    margin: 10px 0 0 0;
+.info {
+    margin: 40px 0 0 0;
     color: white;
     font-weight: bold;
 }

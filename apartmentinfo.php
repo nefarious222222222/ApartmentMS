@@ -1,7 +1,6 @@
 <?php
-require_once('public/php/apartmenttext.php');
+require_once('public/php/database.php');
 $imageSrc = $_GET['imageSrc'];
-$description = $_GET['description'];
 
 if (isset($_GET['apartNum'])) {
     $apartNum = $_GET['apartNum'];
@@ -10,29 +9,43 @@ if (isset($_GET['apartNum'])) {
     echo "<script>console.log('Apartment Number Invalid')</script>";
 }
 
-if($description == $indentDesOne) {
-    $firstDescription = $firstDesOne;
-    $secondDescription = $secondDesOne;
+$sqlApart = "SELECT * FROM apartment";
+$stmtApart = $conn->prepare($sqlApart);
+$stmtApart->execute();
+$resultApart = $stmtApart->get_result();
+
+$apartments = [];
+
+if ($resultApart && $resultApart->num_rows > 0) {
+    $i = 1;
+
+    while ($row = $resultApart->fetch_assoc()) {
+        $variableName = "apartment" . $i++;
+        $$variableName = $row;
+        $apartments[$variableName] = $row;
+    }
+} else {
+    echo "No apartments found.";
 }
-else if ($description == $indentDesTwo) {
-    $firstDescription = $firstDesTwo;
-    $secondDescription = $secondDesTwo;
-}
-else if ($description == $indentDesThree) {
-    $firstDescription = $firstDesThree;
-    $secondDescription = $secondDesThree;
-}
-else if ($description == $indentDesFour) {
-    $firstDescription = $firstDesFour;
-    $secondDescription = $secondDesFour;
-}
-else if ($description == $indentDesFive) {
-    $firstDescription = $firstDesFive;
-    $secondDescription = $secondDesFive;
-}
-else if ($description == $indentDesSix) {
-    $firstDescription = $firstDesSix;
-    $secondDescription = $secondDesSix;
+
+if($apartNum == 1){
+    $firstDescription = $apartments['apartment1']['description'];
+    $secondDescription = $apartments['apartment1']['fullInfo'];
+} else if($apartNum == 2) {
+    $firstDescription = $apartments['apartment2']['description'];
+    $secondDescription = $apartments['apartment2']['fullInfo'];
+} else if($apartNum == 3) {
+    $firstDescription = $apartments['apartment3']['description'];
+    $secondDescription = $apartments['apartment3']['fullInfo'];
+} else if($apartNum == 4) {
+    $firstDescription = $apartments['apartment4']['description'];
+    $secondDescription = $apartments['apartment4']['fullInfo'];
+} else if($apartNum == 5) {
+    $firstDescription = $apartments['apartment5']['description'];
+    $secondDescription = $apartments['apartment5']['fullInfo'];
+} else if($apartNum == 6) {
+    $firstDescription = $apartments['apartment6']['description'];
+    $secondDescription = $apartments['apartment6']['fullInfo'];
 }
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">

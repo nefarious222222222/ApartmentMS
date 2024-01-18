@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once('public/php/apartmenttext.php');
 require_once('public/php/database.php');
 
 if (isset($_SESSION["user"])) {
@@ -15,25 +14,23 @@ if (isset($_SESSION["user"])) {
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $userType = $row["userType"];
-        echo $userType;
     }
 }
 
-$sqlApart = "SELECT status FROM apartment";
+$sqlApart = "SELECT * FROM apartment";
 $stmtApart = $conn->prepare($sqlApart);
 $stmtApart->execute();
 $resultApart = $stmtApart->get_result();
 
-$statuses = [];
+$apartments = [];
 
 if ($resultApart && $resultApart->num_rows > 0) {
     $i = 1;
 
     while ($row = $resultApart->fetch_assoc()) {
-        $status = $row["status"];
-        $variableName = "statApart" . $i++;
-        $$variableName = $status;
-        $statuses[$variableName] = $status;
+        $variableName = "apartment" . $i++;
+        $$variableName = $row;
+        $apartments[$variableName] = $row;
     }
 } else {
     echo "No apartments found.";
@@ -130,7 +127,13 @@ if ($resultApart && $resultApart->num_rows > 0) {
                             <div class="buttonContainer">
                                 <button type="button" onclick="goEditInfo()">Edit Information</button>
                                 <button type="button" onclick="goChangePass()">Change Password</button>
-                                <button type="button" onclick="goMaintenance()">Maintenance Request</button>
+                                <?php
+                                if ($userType == "admin") {
+                                    echo '<button type="button" onclick="goMaintenance()">Manage Apartment</button>';
+                                } else {
+                                    echo '<button type="button" onclick="goMaintenance()">Maintenance Request</button>';
+                                }
+                                ?>
                                 <button type="button" onclick="closeChooseSettings()">Back</button>
                             </div>
                         </div>
@@ -163,78 +166,96 @@ if ($resultApart && $resultApart->num_rows > 0) {
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment1.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&description=<?php echo urlencode($indentDesOne); ?>&apartNum=1" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment1.jpg&apartNum=1" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart1;?></span></p>
-                        <p class="apartmentDetails" id="infoApartOne">
-                            <?php echo $indentDesOne; ?>
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment1']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment1']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment1']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment1']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment1']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
     
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment2.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&description=<?php echo urlencode($indentDesTwo); ?>&apartNum=2" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment2.jpg&apartNum=2" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart2;?></span></p>
-                        <p class="apartmentDetails" id="infoApartTwo"> 
-                            <?php echo $indentDesTwo; ?>
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment2']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment2']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment2']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment2']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment2']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
     
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment3.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&description=<?php echo urlencode($indentDesThree); ?>&apartNum=3" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment3.jpg&apartNum=3" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart3;?></span></p>
-                        <p class="apartmentDetails" id="infoApartThree">
-                            <?php echo $indentDesThree; ?>     
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment3']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment3']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment3']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment3']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment3']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
     
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment4.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&description=<?php echo urlencode($indentDesFour); ?>&apartNum=4" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment4.jpg&apartNum=4" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart4;?></span></p>
-                        <p class="apartmentDetails" id="infoApartFour">
-                            <?php echo $indentDesFour; ?>
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment4']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment4']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment4']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment4']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment4']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
     
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment5.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&description=<?php echo urlencode($indentDesFive); ?>&apartNum=5" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment5.jpg&apartNum=5" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart5;?></span></p>
-                        <p class="apartmentDetails" id="infoApartFive"> 
-                            <?php echo $indentDesFive; ?>
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment5']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment5']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment5']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment5']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment5']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
     
                 <div class="aboutApartment">
                     <div class="imageContainer">
                         <img class="apartmentImg" src="public/images/apartment6.jpg" alt="Apartment Image" />
-                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&description=<?php echo urlencode($indentDesSix); ?>&apartNum=6" class="overlayText">Rent</a>
+                        <a href="apartmentinfo.php?imageSrc=public/images/apartment6.jpg&apartNum=6" class="overlayText">Rent</a>
                     </div>
                     <div>
-                        <p class="status">Status: <span class="statusValue"><?php echo $statApart6;?></span></p>
-                        <p class="apartmentDetails" id="infoApartSix">
-                            <?php echo $indentDesSix; ?>
-                        </p>
+                        <p class="info">Status: <span class="statusValue"><?php echo $apartments['apartment6']['status'];?></span></p>
+                        <div class="groupInfo">
+                            <p class="info">Price: <span class="statusValue"><?php echo '₱'; echo $apartments['apartment6']['fee'];?></span></p>
+                            <p class="info">Size: <span class="statusValue"><?php echo $apartments['apartment6']['size'];?></span></p>
+                            <p class="info">Floors: <span class="statusValue"><?php echo $apartments['apartment6']['storyNum']; echo ' Floor/s';?></span></p>
+                            <p class="info">Bedrooms: <span class="statusValue"><?php echo $apartments['apartment6']['bedroomNum']; echo ' Bedroom/s';?></span></p>
+                        </div>
                     </div>
                 </div>
             </div>
