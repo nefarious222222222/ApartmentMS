@@ -11,7 +11,7 @@ if (!$apartNum) {
     exit();
 }
 
-$apartmentCheckQuery = "SELECT status FROM apartment WHERE apartmentID = ?";
+$apartmentCheckQuery = "SELECT fee, status FROM apartment WHERE apartmentID = ?";
 $stmtApartment = $conn->prepare($apartmentCheckQuery);
 $stmtApartment->bind_param('i', $apartNum);
 $stmtApartment->execute();
@@ -19,6 +19,7 @@ $resultApartment = $stmtApartment->get_result();
 
 if ($resultApartment && $resultApartment->num_rows > 0) {
     $rowApartment = $resultApartment->fetch_assoc();
+    $apartmentFee = $rowApartment["fee"];
     $apartmentStatus = $rowApartment["status"];
 
     if ($apartmentStatus == "available") {
@@ -64,6 +65,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                 $paymentMethod = isset($_POST["paymentMethod"]) ? trim($_POST["paymentMethod"]) : '';
                 $status = "pending";
                 $payment = "pending";
+                $toPay = $apartmentFee + $apartmentFee;
             
                 if (empty($fName) || empty($dateOB) || empty($contact) || empty($email) || empty($moveIn) || empty($moveOut) || empty($validIdType) || empty($validIdNum) || empty($paymentMethod)) {
                     $errors[] = "All fields are required";
@@ -128,12 +130,12 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                                 echo "<script>alert('You can only rent once'); window.location='index.php';</script>";
                                 exit();
                             } else {
-                                $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment, toPay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                 $stmtInsert = $conn->prepare($insertQuery);
-                                $stmtInsert->bind_param('sssssssssiiss', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum, $status, $payment);
+                                $stmtInsert->bind_param('sssssssssiissi', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum, $status, $payment, $toPay);
 
                                 if ($stmtInsert->execute()) {
-                                    echo "<script>alert('Your rental will be reviewed'); window.location='index.php';</script>";
+                                    echo "<script>alert('Your rental will be reviewed, once accepted you'll have to pay one month deposit and one month advance'); window.location='index.php';</script>";
                                     exit();
                                 } else {
                                     echo "<script>alert('Failed to rent');</script>";
@@ -145,9 +147,9 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                             exit();
                         }
                     } else {
-                        $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment, toPay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmtInsert = $conn->prepare($insertQuery);
-                        $stmtInsert->bind_param('sssssssssiiss', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum, $status, $payment);
+                        $stmtInsert->bind_param('sssssssssiissi', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum, $status, $payment, $toPay);
 
                         if ($stmtInsert->execute()) {
                             echo "<script>alert('Your rental will be reviewed'); window.location='index.php';</script>";
@@ -156,21 +158,6 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                             echo "<script>alert('Failed to rent');</script>";
                             exit();
                         }
-                        /*
-                        if ($stmtInsert->execute()) {
-                            $updateApartmentStatusQuery = "UPDATE apartment SET status = 'unavailable' WHERE apartmentID = ?";
-                            $stmtUpdateStatus = $conn->prepare($updateApartmentStatusQuery);
-                            $stmtUpdateStatus->bind_param('i', $apartNum);
-        
-                            if ($stmtUpdateStatus->execute()) {
-                                echo "<script>alert('Your rental will be reviewed'); window.location='index.php';</script>";
-                            } else {
-                                echo "<script>alert('Failed to update apartment status');</script>";
-                            }
-                        } else {
-                            echo "<script>alert('Failed to insert into rent');</script>";
-                        }
-                        */
                     }
                 } else {
                     foreach ($errors as $error) {

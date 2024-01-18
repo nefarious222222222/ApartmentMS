@@ -71,6 +71,14 @@ if ($resultApart && $resultApart->num_rows > 0) {
                 document.getElementById("chooseSettings").style.display = "none";
             }
 
+            function goMaintenance() {
+                window.location.href = 'maintenance.php';
+            }
+
+            function goManage() {
+                window.location.href = 'manageapartment.php';
+            }
+
             function checkSignIn(event) {
                 <?php
                 if (!isset($_SESSION["user"])) {
@@ -129,7 +137,7 @@ if ($resultApart && $resultApart->num_rows > 0) {
                                 <button type="button" onclick="goChangePass()">Change Password</button>
                                 <?php
                                 if ($userType == "admin") {
-                                    echo '<button type="button" onclick="goMaintenance()">Manage Apartment</button>';
+                                    echo '<button type="button" onclick="goManage()">Manage Apartment</button>';
                                 } else {
                                     echo '<button type="button" onclick="goMaintenance()">Maintenance Request</button>';
                                 }
