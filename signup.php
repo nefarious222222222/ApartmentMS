@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $confirmPass = $_POST["confirmPass"];
     $email = filter_var($_POST["emailAdd"], FILTER_SANITIZE_EMAIL);
     $contact = $_POST["contactNum"];
-    $userType = "normal"
+    $userType = "normal";
 
     if (empty($username) || empty($password) || empty($confirmPass) || empty($email) || empty($contact)) {
         $errors[] = "All fields are required";

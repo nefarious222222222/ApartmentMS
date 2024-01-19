@@ -1,6 +1,6 @@
 /* Manage css */
 body {
-    padding: 0 20px 0 20px;
+    padding: 0 20px 20px 20px;
 }
 
 h1 {
@@ -13,6 +13,7 @@ h1 {
     border: 1px solid;
     border-radius: 5px;
     padding: 0 20px 20px 20px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,18 +51,18 @@ h1 {
     box-shadow: 0 0 7px 3px rgb(255, 255, 255);
 }
 
-table {
+.rentTable {
     width: 1450px;
 }
 
-th {
+.rentTh {
     width: fit-content;
     padding: 5px 10px 5px 10px;
     color: white;
     font-size: 20px;
 }
 
-td {
+.rentTd {
     text-align: center;
     padding: 10px 0 20px 0;
     color: white;
@@ -123,6 +124,146 @@ td {
     color:  #3a403e;
     background-color: white;
     box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5); 
+}
+
+/* Apartment Manager css */
+
+.divContainer .innerTitle {
+    margin-bottom: 20px;
+}
+
+.addBtn a {
+    text-decoration: none;
+    color: #3a403e;
+}
+
+.addBtn a:hover {
+    color:white;  
+}
+
+.divContainer .addBtn{
+    margin-bottom: 20px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: none;
+    font-weight: 600;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.divContainer .addBtn:hover {
+    cursor: pointer;
+    background-color: #3a403e;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.apartmentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.apartmentTable {
+    text-align: center;
+}
+
+.apartmentTh {
+    width: fit-content;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.apartmentTd {
+    text-align: center;
+    padding: 10px 0 20px 0;
+    color: white;
+}
+
+.viewContainer {
+    width: 1300px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px 20px 20px;
+}
+
+.dbContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 10px 0;
+}
+
+.container {
+    display: flex;
+}
+
+.apartmentField {
+    font-weight: bold;
+    color: #212423;
+    margin: 0 20px 0 0;
+}
+
+.apartmentValue{
+    margin: 0;
+    color: #212423;
+}
+
+.descContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.descContainer .apartmentValue {
+    text-align: justify;
+    text-indent: 30px;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.infoContainer .apartmentValue {
+    text-align: justify;
+    text-indent: 30px;
+}
+
+.btnContainer {
+    display: flex;
+    gap: 30px;
+    justify-content: flex-end;
+}
+
+.viewContainer button a {
+    text-decoration: none;
+    color: white;
+}
+
+.viewContainer button a:hover {
+    color:#3a403e;  
+}
+
+.viewContainer button {
+    padding: 10px 25px 10px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3a403e ;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.viewContainer button:hover {
+    cursor: pointer;
+    background-color: white;
+    color:#3a403e;  
+    box-shadow: 0 0 7px 3px rgb(23, 25, 24);
 }
 
 /* Background Css */
