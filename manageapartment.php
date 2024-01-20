@@ -210,7 +210,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                             <form method="post">
                                 <input type="hidden" name="apartmentID" value="<?php echo $apartment['apartmentID']; ?>" style="display: none;">
                                 <button class="editBtn" type="submit" name="editButton">Edit</button>
-                                <button class="deleteBtn" type="button" onclick="handleClick(<?php echo $apartment['apartmentID']; ?>)">Delete</button>
+                                <button class="deleteBtn" type="button" name="deleteButton" onclick="showDeleteConfirmation(<?php echo $apartment['apartmentID']; ?>)">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -234,11 +234,36 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             </div>
         </div>
 
+        <div class="deleteConfirmation" id="deleteConfirmation">
+            <div class="deleteContent">
+                <h2 class="deleteTitle">Confirmation</h2>
+                <p class="deleteMessage" id="deleteMessage">Do you want to delete this apartment?</p>
+
+                <div class="buttonContainer">
+                    <form id="deleteForm" action="manageapartment.php" method="post">
+                        <input type="hidden" id="apartmentIDInput" name="apartmentID" value="">
+                        <button class="dltBtn" type="submit" name="yesBtn">Yes</button>
+                        <button class="dltBtn" type="button" onclick="closeDeleteConfirmation()">No</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editButton'])) {
-            $_SESSION['apartmentID'] = $_POST['apartmentID'];
-            echo '<script>window.location = "addedit.php?mode=edit";</script>';
-            exit();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['editButton'])) {
+
+                session_start();
+                $_SESSION['apartmentID'] = $_POST['apartmentID'];
+                echo '<script>window.location = "addedit.php?mode=edit";</script>';
+                exit();
+
+            } elseif (isset($_POST['deleteButton'])) {
+
+                $_SESSION['apartmentID'] = $_POST['apartmentID'];
+                echo '<script>document.getElementById("deleteConfirmation").style.display = "block";</script>';
+                
+            }
         }
         ?>
         <script>
@@ -252,17 +277,42 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                 document.getElementById("acceptConfirmation").style.display = "none";
             }
 
-            function handleClick(apartmentID) {
-                <?php
-                    $apartID = apartmentID;
+            function closeDeleteConfirmation() {
+                document.getElementById("deleteConfirmation").style.display = "none";
+            }
 
-                    $deleteQuery = "SELECT status FROM rent WHERE rentID = ?";
-                    $stmtDelete = $conn->prepare($deleteQuery);
-                    $stmtDelete->bind_param('i', $apartID);
-                    $stmtDelete->execute();
-                ?>
+            function showDeleteConfirmation(apartmentID) {
+                document.getElementById('deleteMessage').innerHTML = "Do you want to delete apartment " + apartmentID + "?";
+                document.getElementById("deleteConfirmation").style.display = "block";
+                document.getElementById('apartmentIDInput').value = apartmentID;
             }
     </script>
+    <?php
+    $apartID = $_SESSION['apartmentID'];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['yesBtn'])) {
+
+        $deleteQuery = "DELETE FROM apartment WHERE apartmentID = ?";
+        $stmtDelete = $conn->prepare($deleteQuery);
+
+        if ($stmtDelete) {
+            $stmtDelete->bind_param('i', $apartID);
+
+            if ($stmtDelete->execute()) {
+                echo "<script>alert('Apartment " . $apartID . " deleted successfully');</script>";
+                exit();
+            } else {
+                echo "<script>alert('Apartment " . $apartID . " deletion unsuccessful');</script>";
+            }
+
+            $stmtDelete->close();
+        } else {
+            echo "<script>alert('Error preparing deleting Apartment " . $apartID . "');</script>";
+        }
+    } else {
+        echo "<script>alert('Error preparing deleting Apartment " . $apartID . "');</script>";
+    }
+    ?>
     </body>
 </html>
 </span>
