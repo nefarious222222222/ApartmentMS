@@ -48,10 +48,9 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
     $title = "Edit Apartment";
     $showFormEditContainer = true;
     
-    
-    if (isset($_GET['id'])) {
-        $apartmentID = intval($_GET['id']);
-    
+    if (isset($_SESSION['apartmentID']) && !empty($_SESSION['apartmentID'])) {
+        $apartmentID = $_SESSION['apartmentID'];
+
         $selectApartmentQuery = "SELECT * FROM apartment WHERE apartmentID = ?";
         $stmtSelectApartment = $conn->prepare($selectApartmentQuery);
         $stmtSelectApartment->bind_param('i', $apartmentID);
@@ -69,7 +68,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
             $fullInfoValue = $row["fullInfo"];
             $imageUrlValue = $row["imageURL"];
     
-            if (isset($_POST["submit"])) {
+            if (isset($_POST["submit"]) && isset($_FILES['image'])) {
                 $fee = $_POST['fee'];
                 $size = $_POST['size'];
                 $storyNum = $_POST['storyNum'];
@@ -87,6 +86,10 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
                 $imgExLc = strtolower($imgEx);
     
                 $errors = array();
+
+                if ($_FILES['image'] = '') {
+                    $errors[] = "Image cannot be empty";
+                }
     
                 if ($imageSize > 125000) {
                     $errors[] = "Image size is too big";
@@ -105,30 +108,51 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
                         if ($stmtUpdateImage->execute()) {
                             $updateQuery = "UPDATE apartment SET fee=?, size=?, storyNum=?, status=?, bedroomNum=?, description=?, fullInfo=? WHERE apartmentID=?";
                             $stmtUpdate = $conn->prepare($updateQuery);
-                            $stmtUpdate->bind_param('isisisssi', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $apartmentID);
-    
+                            $stmtUpdate->bind_param('isisissi', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $apartmentID);
+
                             if ($stmtUpdate->execute()) {
                                 echo "<script>alert('Apartment updated successfully'); window.location='manageapartment.php';</script>";
+                                unset($_SESSION['apartmentID']);
                                 exit();
                             } else {
-                                echo "<script>alert('Error: Unable to update apartment.');</script>";
+                                $errors[] = "Unable to update this apartment";
+                        
+                                foreach ($errors as $error) {
+                                    $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                                }
                             }
+
                         } else {
-                            echo "<script>alert('Error: Unable to update image.');</script>";
+                            $errors[] = "Unable to upload image";
+                        
+                            foreach ($errors as $error) {
+                                $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                            }
                         }
+
                     } else {
-                        echo "<script>alert('Invalid file extension');</script>";
+                        $errors[] = "Invalid file extension";
+                        
+                        foreach ($errors as $error) {
+                            $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                        }
                     }
+
                 } else {
                     foreach ($errors as $error) {
                         $errorDiv .= "<div class='alertError'><p>$error</p></div>";
                     }
                 }
             }
+
         } else {
             echo "<script>alert('Error: Fetching the values unsuccessful!');</script>";
         }
+
+    } else {
+        echo "Session variable 'apartmentID' not set.";
     }
+    
 } else {
     echo "<script>alert('Something went wrong'); window.location ='manageapartment.php';</script>";
 }
@@ -163,7 +187,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
         <style>
            .alertError {
                 padding: 10px;
-                margin-top: 30px;
+                margin-top: 10px;
                 border-radius: 5px;
                 text-align: center;
                 background-color: rgb(239, 151, 151);
@@ -187,9 +211,10 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
             <?php echo $title; ?>    
         </h1>
 
-        <div class="addContainer">    
-            <?php echo $errorDiv; ?>    
+        <div class="addContainer">        
             <?php if ($showFormAddContainer): ?>
+                <?php echo $errorDiv; ?>
+                
                 <div class="formAddContainer">
                     <form method="post" action="addedit.php?mode=add">
                         <div class="firstRow">
@@ -256,8 +281,9 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
 
             <?php if ($showFormEditContainer): ?>
                 <h2 class="apartmentId">Apartment ID: <?php echo $apartmentID ?></h2>
+                <?php echo $errorDiv; ?>
                 <div class="formEditContainer">
-                    <form method="post" action="addedit.php?mode=edit">
+                    <form method="post" action="addedit.php?mode=edit" enctype="multipart/form-data">
                         <div class="firstRow">
                             <div class="inputContainer">
                                 <label for="image">Choose Image:</label>

@@ -207,11 +207,11 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                         </div>
 
                         <div class="btnContainer">
-                            <?php
-                                $apartmentID = $apartment['apartmentID'];
-                                echo '<button class="editBtn" type="button"><a href="addedit.php?mode=edit&id=' . $apartmentID . '">Edit</a></button>';
-                                echo '<button class="deleteBtn" type="button" onclick="handleClick(' . $apartmentID . ')">Delete</button>';
-                            ?>
+                            <form method="post">
+                                <input type="hidden" name="apartmentID" value="<?php echo $apartment['apartmentID']; ?>" style="display: none;">
+                                <button class="editBtn" type="submit" name="editButton">Edit</button>
+                                <button class="deleteBtn" type="button" onclick="handleClick(<?php echo $apartment['apartmentID']; ?>)">Delete</button>
+                            </form>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -234,6 +234,13 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             </div>
         </div>
 
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editButton'])) {
+            $_SESSION['apartmentID'] = $_POST['apartmentID'];
+            echo '<script>window.location = "addedit.php?mode=edit";</script>';
+            exit();
+        }
+        ?>
         <script>
             function showAcceptConfirmation(apartmentID, rentID) {
                 document.getElementById('apartmentIDInput').value = apartmentID;
@@ -246,7 +253,14 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             }
 
             function handleClick(apartmentID) {
-                alert(apartmentID);
+                <?php
+                    $apartID = apartmentID;
+
+                    $deleteQuery = "SELECT status FROM rent WHERE rentID = ?";
+                    $stmtDelete = $conn->prepare($deleteQuery);
+                    $stmtDelete->bind_param('i', $apartID);
+                    $stmtDelete->execute();
+                ?>
             }
     </script>
     </body>

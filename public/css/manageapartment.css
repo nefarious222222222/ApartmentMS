@@ -235,8 +235,12 @@ h1 {
 
 .btnContainer {
     display: flex;
-    gap: 30px;
     justify-content: flex-end;
+}
+
+.btnContainer form {
+    display: flex;
+    gap: 30px;
 }
 
 .viewContainer button a {
