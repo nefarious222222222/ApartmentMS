@@ -4,7 +4,7 @@ require_once('public/php/database.php');
 
 $title = "Default Title";
 $showFormAddContainer = false;
-$showEditContainer = false;
+$showFormEditContainer = false;
 
 $errors = [];
 $errorDiv = '';
@@ -22,34 +22,14 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
         $description = isset($_POST["description"]) ? trim($_POST["description"]) : '';
         $fullInfo = isset($_POST["fullInfo"]) ? trim($_POST["fullInfo"]) : '';
 
-        $imageName = $_FILES["image"]["name"];
-        $imageSize = $_FILES["image"]["size"];
-        $imageTmp = $_FILES["image"]["tmp_name"];
-
-        $allowedEx = array("jpg", "jpeg", "png");
-        $imgEx = pathinfo($imageName, PATHINFO_EXTENSION);
-        $imgExLc = strtolower($imgEx);
-
-        if (empty($fee) || empty($size) || empty($storyNum) || empty($status) || empty($bedroomNum) || empty($description) || empty($fullInfo) || empty($image)) {
+        if (empty($fee) || empty($size) || empty($storyNum) || empty($status) || empty($bedroomNum) || empty($description) || empty($fullInfo)) {
             $errors[] = "All fields are required";
         }
 
-        if ($imageSize > 125000) {
-            $errors[] = "Image size is too big";
-        } 
-
         if (empty($errors)) {
-            if (in_array($imgExLc, $allowedEx)) {
-                $newImgName = uniqid("apartment-", true).'.'.$imgExLc;
-                $imgUploadPath = 'uploads/'.$newImgName;
-                move_uploaded_file($imageTmp, $imgUploadPath);
-            } else {
-                echo "<script>alert('Invalid file extension;);</script>";
-            }
-            
-            $insertQuery = "INSERT INTO apartment (fee, size, storyNum, status, bedroomNum, description, fullInfo, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $insertQuery = "INSERT INTO apartment (fee, size, storyNum, status, bedroomNum, description, fullInfo) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmtInsert = $conn->prepare($insertQuery);
-            $stmtInsert->bind_param('isisisss', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $newImgName);
+            $stmtInsert->bind_param('isisiss', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo);
             $stmtInsert->execute();
 
             if ($stmtInsert->execute()) {
@@ -66,7 +46,91 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
     }
 } else if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
     $title = "Edit Apartment";
-    $showEditContainer = true;
+    $showFormEditContainer = true;
+    
+    
+    if (isset($_GET['id'])) {
+        $apartmentID = intval($_GET['id']);
+    
+        $selectApartmentQuery = "SELECT * FROM apartment WHERE apartmentID = ?";
+        $stmtSelectApartment = $conn->prepare($selectApartmentQuery);
+        $stmtSelectApartment->bind_param('i', $apartmentID);
+        $stmtSelectApartment->execute();
+        $resultSelectApartment = $stmtSelectApartment->get_result();
+    
+        if ($resultSelectApartment && $resultSelectApartment->num_rows > 0) {
+            $row = $resultSelectApartment->fetch_assoc();
+            $feeValue = $row["fee"];
+            $sizeValue = $row["size"];
+            $storyNumValue = $row["storyNum"];
+            $statusValue = $row["status"];
+            $bedroomNumValue = $row["bedroomNum"];
+            $descriptionValue = $row["description"];
+            $fullInfoValue = $row["fullInfo"];
+            $imageUrlValue = $row["imageURL"];
+    
+            if (isset($_POST["submit"])) {
+                $fee = $_POST['fee'];
+                $size = $_POST['size'];
+                $storyNum = $_POST['storyNum'];
+                $status = $_POST['status'];
+                $bedroomNum = $_POST['bedroomNum'];
+                $description = $_POST['description'];
+                $fullInfo = $_POST['fullInfo'];
+
+                $imageName = $_FILES["image"]["name"];
+                $imageSize = $_FILES["image"]["size"];
+                $imageTmp = $_FILES["image"]["tmp_name"];
+    
+                $allowedEx = array("jpg", "jpeg", "png");
+                $imgEx = pathinfo($imageName, PATHINFO_EXTENSION);
+                $imgExLc = strtolower($imgEx);
+    
+                $errors = array();
+    
+                if ($imageSize > 125000) {
+                    $errors[] = "Image size is too big";
+                }
+    
+                if (empty($errors)) {
+                    if (in_array($imgExLc, $allowedEx)) {
+                        $newImgName = uniqid("apartment-", true) . '.' . $imgExLc;
+                        $imgUploadPath = 'uploads/' . $newImgName;
+                        move_uploaded_file($imageTmp, $imgUploadPath);
+    
+                        $updateImageQuery = "UPDATE apartment SET imageURL=? WHERE apartmentID=?";
+                        $stmtUpdateImage = $conn->prepare($updateImageQuery);
+                        $stmtUpdateImage->bind_param('si', $newImgName, $apartmentID);
+    
+                        if ($stmtUpdateImage->execute()) {
+                            $updateQuery = "UPDATE apartment SET fee=?, size=?, storyNum=?, status=?, bedroomNum=?, description=?, fullInfo=? WHERE apartmentID=?";
+                            $stmtUpdate = $conn->prepare($updateQuery);
+                            $stmtUpdate->bind_param('isisisssi', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $apartmentID);
+    
+                            if ($stmtUpdate->execute()) {
+                                echo "<script>alert('Apartment updated successfully'); window.location='manageapartment.php';</script>";
+                                exit();
+                            } else {
+                                echo "<script>alert('Error: Unable to update apartment.');</script>";
+                            }
+                        } else {
+                            echo "<script>alert('Error: Unable to update image.');</script>";
+                        }
+                    } else {
+                        echo "<script>alert('Invalid file extension');</script>";
+                    }
+                } else {
+                    foreach ($errors as $error) {
+                        $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                    }
+                }
+            }
+        } else {
+            echo "<script>alert('Error: Fetching the values unsuccessful!');</script>";
+        }
+    }
+} else {
+    echo "<script>alert('Something went wrong'); window.location ='manageapartment.php';</script>";
 }
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
@@ -86,6 +150,14 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
 
             function closeAddConfirm() {
                 document.getElementById("addConfirmation").style.display = "none";
+            }
+
+            function showEditConfirm() {
+                document.getElementById("editConfirmation").style.display = "block"; 
+            }
+
+            function closeEditConfirm() {
+                document.getElementById("editConfirmation").style.display = "none";
             }
         </script>
         <style>
@@ -119,12 +191,8 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
             <?php echo $errorDiv; ?>    
             <?php if ($showFormAddContainer): ?>
                 <div class="formAddContainer">
-                    <form method="post" action="addedit.php?mode=add" enctype="multipart/form-data">
+                    <form method="post" action="addedit.php?mode=add">
                         <div class="firstRow">
-                            <div class="inputContainer">
-                                <label for="image">Choose Image:</label>
-                                <input type="file" name="image" id="image">
-                            </div>
                                 
                             <div class="inputContainer">
                                 <label>
@@ -182,6 +250,83 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
                         </div>
                         
                         <button type="button" onclick="showAddConfirm()">Add Apartment</button>    
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($showFormEditContainer): ?>
+                <h2 class="apartmentId">Apartment ID: <?php echo $apartmentID ?></h2>
+                <div class="formEditContainer">
+                    <form method="post" action="addedit.php?mode=edit">
+                        <div class="firstRow">
+                            <div class="inputContainer">
+                                <label for="image">Choose Image:</label>
+                                <input type="file" name="image" id="image">
+                            </div>
+                                
+                            <div class="inputContainer">
+                                <label>
+                                    Fee:                        
+                                </label>
+                                <input type="number" class="no-spinner" name="fee" value="<?php echo isset($feeValue) ? $feeValue : ''; ?>"/>
+                            </div>
+
+                            <div class="inputContainer">
+                                <label>
+                                    Size:                        
+                                </label>
+                                <input type="text" name="size" value="<?php echo isset($sizeValue) ? $sizeValue : ''; ?>"/>
+                            </div>
+                        </div>
+
+                        <div class="secondRow">
+                            <div class="inputContainer">
+                                <label>
+                                    Story Number:                        
+                                </label>
+                                <input type="number" class="no-spinner" name="storyNum" value="<?php echo isset($storyNumValue) ? $storyNumValue : ''; ?>"/>
+                            </div>
+
+                            <div class="inputContainer">
+                                <label>
+                                    Status:                        
+                                </label>
+                                <input type="text" class="no-spinner" name="status" value="<?php echo isset($statusValue) ? $statusValue : ''; ?>"/>
+                            </div>
+
+                            <div class="inputContainer">
+                                <label>
+                                    Bedroom Number:                        
+                                </label>
+                                <input type="number" class="no-spinner" name="bedroomNum" value="<?php echo isset($bedroomNumValue) ? $bedroomNumValue : ''; ?>"/>
+                            </div>
+                        </div>
+
+                        <div class="thirdRow">
+                            <label>
+                                Description:                        
+                            </label>
+                            <textarea type="text" name="description"><?php echo isset($descriptionValue) ? $descriptionValue : ''; ?></textarea>
+
+                            <label>
+                                Full Info:                        
+                            </label>
+                            <textarea type="text" name="fullInfo"><?php echo isset($fullInfoValue) ? $fullInfoValue : ''; ?></textarea>
+                        </div>
+
+                        <div class="editConfirmation" id="editConfirmation">
+                            <div class="editContent">
+                                <h2>Edit Apartment</h2>
+                                <p class="editMessage">Do you want to edit this apartment?</p>
+
+                                <div class="buttonContainer">
+                                    <input type="submit" name="submit" value="Yes"/>
+                                    <input type="button" onclick="closeEditConfirm()" value="No">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="showEditConfirm()">Edit Apartment</button>    
                     </form>
                 </div>
             <?php endif; ?>

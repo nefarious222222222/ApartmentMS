@@ -105,7 +105,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
     <head>
         <title>DRCM AMS</title>
         <link rel="stylesheet" href="public/css/manageapartment.css" />
-         <link
+        <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
             rel="stylesheet"
         />
@@ -209,7 +209,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                         <div class="btnContainer">
                             <?php
                                 $apartmentID = $apartment['apartmentID'];
-                                echo '<button class="editBtn" type="button"><a href="addedit.php?mode=edit">Edit</a></button>';
+                                echo '<button class="editBtn" type="button"><a href="addedit.php?mode=edit&id=' . $apartmentID . '">Edit</a></button>';
                                 echo '<button class="deleteBtn" type="button" onclick="handleClick(' . $apartmentID . ')">Delete</button>';
                             ?>
                         </div>
