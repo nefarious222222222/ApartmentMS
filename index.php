@@ -178,6 +178,7 @@ if ($resultApart && $resultApart->num_rows > 0) {
                             <a href="apartmentinfo.php?imageSrc=<?php echo $apartmentInfo['imageSrc']; ?>&apartNum=<?php echo $apartmentKey; ?>" class="overlayText">Rent</a>
                         </div>
                         <div>
+                            <p class="info">Apartment Number: <span class="statusValue"><?php echo $apartmentInfo['apartmentID'];?></span></p>
                             <p class="info">Status: <span class="statusValue"><?php echo $apartmentInfo['status'];?></span></p>
                             <div class="groupInfo">
                                 <p class="info">Price: <span class="statusValue"><?php echo '₱' . $apartmentInfo['fee'];?></span></p>
