@@ -13,7 +13,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
     $title = "Add Apartment";
     $showFormAddContainer = true;
 
-    if (isset($_POST["submit"])) {
+    if (isset($_POST["submit"]) && isset($_FILES['image'])) {
         $fee = isset($_POST["fee"]) ? trim($_POST["fee"]) : '';
         $size = isset($_POST["size"]) ? trim($_POST["size"]) : '';
         $storyNum = isset($_POST["storyNum"]) ? trim($_POST["storyNum"]) : '';
@@ -22,20 +22,52 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
         $description = isset($_POST["description"]) ? trim($_POST["description"]) : '';
         $fullInfo = isset($_POST["fullInfo"]) ? trim($_POST["fullInfo"]) : '';
 
+        $errors = array();
+
         if (empty($fee) || empty($size) || empty($storyNum) || empty($status) || empty($bedroomNum) || empty($description) || empty($fullInfo)) {
             $errors[] = "All fields are required";
         }
 
-        if (empty($errors)) {
-            $insertQuery = "INSERT INTO apartment (fee, size, storyNum, status, bedroomNum, description, fullInfo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmtInsert = $conn->prepare($insertQuery);
-            $stmtInsert->bind_param('isisiss', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo);
+        $imageName = $_FILES["image"]["name"];
+        $imageSize = $_FILES["image"]["size"];
+        $imageTmp = $_FILES["image"]["tmp_name"];
 
-            if ($stmtInsert->execute()) {
-                echo "<script>alert('Apartment added successfully'); window.location='manageapartment.php';</script>";
-                exit();
+        $allowedEx = array("jpg", "jpeg", "png");
+        $imgEx = pathinfo($imageName, PATHINFO_EXTENSION);
+        $imgExLc = strtolower($imgEx);
+
+        if ($_FILES['image'] == '') {
+            $errors[] = "Image cannot be empty";
+        }
+
+        if ($imageSize > 125000) {
+            $errors[] = "Image size is too big";
+        }
+
+        if (empty($errors)) {
+            if (in_array($imgExLc, $allowedEx)) {
+                $newImgName = uniqid("apartment-", true) . '.' . $imgExLc;
+                $imgUploadPath = 'uploads/' . $newImgName;
+                move_uploaded_file($imageTmp, $imgUploadPath);
+                
+                $insertQuery = "INSERT INTO apartment (fee, size, storyNum, status, bedroomNum, description, fullInfo, imageURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmtInsert = $conn->prepare($insertQuery);
+                $stmtInsert->bind_param('isisisss', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $newImgName);
+                
+                if ($stmtInsert->execute()) {
+                    echo "<script>alert('Apartment inserted successfully'); window.location='index.php';</script>";
+                    exit();
+                } else {
+                    $errors[] = "Unable to insert this apartment";
+                
+                    foreach ($errors as $error) {
+                        $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                    }
+                }
             } else {
-                echo "<script>alert('Error: Unable to add apartment.')</script>;";
+                foreach ($errors as $error) {
+                    $errorDiv .= "<div class='alertError'><p>$error</p></div>";
+                }
             }
         } else {
             foreach ($errors as $error) {
@@ -215,8 +247,12 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
                 <?php echo $errorDiv; ?>
                 
                 <div class="formAddContainer">
-                    <form method="post" action="addedit.php?mode=add">
+                    <form method="post" action="addedit.php?mode=add"  enctype="multipart/form-data">
                         <div class="firstRow">
+                            <div class="inputContainer">
+                                <label for="image">Choose Image:</label>
+                                <input type="file" name="image" id="image">
+                            </div>
                                 
                             <div class="inputContainer">
                                 <label>
