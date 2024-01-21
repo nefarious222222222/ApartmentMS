@@ -288,7 +288,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             }
     </script>
     <?php
-    $apartID = $_SESSION['apartmentID'];
+    $apartID =  $apartment['apartmentID'];
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['yesBtn'])) {
 
@@ -309,8 +309,6 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
         } else {
             echo "<script>alert('Error preparing deleting Apartment " . $apartID . "');</script>";
         }
-    } else {
-        echo "<script>alert('Error preparing deleting Apartment " . $apartID . "');</script>";
     }
     ?>
     </body>
