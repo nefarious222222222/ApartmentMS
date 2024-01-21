@@ -9,8 +9,9 @@ if (isset($_GET['apartNum'])) {
     echo "<script>console.log('Apartment Number Invalid')</script>";
 }
 
-$sqlApart = "SELECT * FROM apartment";
+$sqlApart = "SELECT * FROM apartment WHERE apartmentID = ?";
 $stmtApart = $conn->prepare($sqlApart);
+$stmtApart->bind_param("i", $apartNum);
 $stmtApart->execute();
 $resultApart = $stmtApart->get_result();
 
@@ -23,30 +24,16 @@ if ($resultApart && $resultApart->num_rows > 0) {
         $variableName = "apartment" . $i++;
         $$variableName = $row;
         $apartments[$variableName] = $row;
+
+        $image = $row['imageURL'];
+        $firstDescription = $row['description'];
+        $secondDescription = $row['fullInfo'];
     }
 } else {
     echo "No apartments found.";
 }
 
-if($apartNum == 1){
-    $firstDescription = $apartments['apartment1']['description'];
-    $secondDescription = $apartments['apartment1']['fullInfo'];
-} else if($apartNum == 2) {
-    $firstDescription = $apartments['apartment2']['description'];
-    $secondDescription = $apartments['apartment2']['fullInfo'];
-} else if($apartNum == 3) {
-    $firstDescription = $apartments['apartment3']['description'];
-    $secondDescription = $apartments['apartment3']['fullInfo'];
-} else if($apartNum == 4) {
-    $firstDescription = $apartments['apartment4']['description'];
-    $secondDescription = $apartments['apartment4']['fullInfo'];
-} else if($apartNum == 5) {
-    $firstDescription = $apartments['apartment5']['description'];
-    $secondDescription = $apartments['apartment5']['fullInfo'];
-} else if($apartNum == 6) {
-    $firstDescription = $apartments['apartment6']['description'];
-    $secondDescription = $apartments['apartment6']['fullInfo'];
-}
+
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -98,7 +85,7 @@ if($apartNum == 1){
         <div class="apartmentInfoContainer">
             <div class="infoGroup">
                 <div class="group">
-                    <?php echo '<img class="apartmentImg" src="' . $imageSrc . '" alt="Apartment Image" />' ?>
+                    <img class="apartmentImg" src="uploads/<?=$image?>" alt="Apartment Image" />
 
                     <p class="firstInfo" id="changeText">
                         <?php echo $firstDescription; ?>

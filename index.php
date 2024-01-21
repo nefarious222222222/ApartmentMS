@@ -174,8 +174,8 @@ if ($resultApart && $resultApart->num_rows > 0) {
                 <?php foreach ($apartments as $apartmentKey => $apartmentInfo): ?>
                     <div class="aboutApartment">
                         <div class="imageContainer">
-                            <img class="apartmentImg" src="<?php echo $apartmentInfo['imageSrc']; ?>" alt="Apartment Image" />
-                            <a href="apartmentinfo.php?imageSrc=<?php echo $apartmentInfo['imageSrc']; ?>&apartNum=<?php echo $apartmentKey; ?>" class="overlayText">Rent</a>
+                            <img class="apartmentImg" src="uploads/<?=$apartmentInfo['imageURL']?>" alt="Apartment Image" />
+                            <a href="apartmentinfo.php?imageSrc=uploads/<?=$apartmentInfo['imageURL']?>; ?>&apartNum=<?php echo $apartmentInfo['apartmentID']; ?>" class="overlayText">Rent</a>
                         </div>
                         <div>
                             <p class="info">Apartment Number: <span class="statusValue"><?php echo $apartmentInfo['apartmentID'];?></span></p>
