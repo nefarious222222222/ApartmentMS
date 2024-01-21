@@ -109,13 +109,21 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
             rel="stylesheet"
         />
+        <script src="public/js/redirect.js"></script>
     </head>
     <body>
         <h1 class="title">
             Manage Apartment         
         </h1>
+
+        <div class="divContainer">
+            <button class="toggleBtn" type="button" onclick="goBack()">Back</button>
+            <button class="toggleBtn" type="button" onclick="toggleRentRequest()">Rent Request</button>
+            <button class="toggleBtn" type="button" onclick="toggleManageApartment()">Manage Apartment</button>
+            <button class="toggleBtn" type="button" onclick="">Maintenance Request</button>
+        </div>
             
-        <div class="divContainer">        
+        <div class="rentContainer" id="rentContainer">        
             <h2 class="innerTitle">Pending Rents</h2>
             <div class="rowTitles">
                 <table class="rentTable">
@@ -157,7 +165,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             </div>
         </div>
 
-        <div class="divContainer">
+        <div class="apartContainer" id="apartContainer">
             <h2 class="innerTitle">Apartments</h2>
             <button class="addBtn"><a href="addedit.php?mode=add">Add Apartment</a></button>
 
@@ -286,6 +294,22 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                 document.getElementById("deleteConfirmation").style.display = "block";
                 document.getElementById('apartmentIDInput').value = apartmentID;
             }
+
+            function toggleRentRequest() {
+                document.getElementById("rentContainer").style.display = "flex";
+                document.getElementById("apartContainer").style.display = "none";
+                
+            }
+
+            function toggleManageApartment() {
+                document.getElementById("apartContainer").style.display = "flex";
+                document.getElementById("rentContainer").style.display = "none";
+            }
+
+            function toggleMaintenanceRequest() {
+                document.getElementById("").style.display = "flex";
+                document.getElementById("").style.display = "none";
+            }
     </script>
     <?php
     $apartID =  $apartment['apartmentID'];
@@ -299,7 +323,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             $stmtDelete->bind_param('i', $apartID);
 
             if ($stmtDelete->execute()) {
-                echo "<script>alert('Apartment " . $apartID . " deleted successfully'); window.location = 'index.php';</script>";
+                echo "<script>alert('Apartment " . $apartID . " deleted successfully');</script>";
                 exit();
             } else {
                 echo "<script>alert('Apartment " . $apartID . " deletion unsuccessful');</script>";

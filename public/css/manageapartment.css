@@ -9,12 +9,46 @@ h1 {
 }
 
 .divContainer {
+    display: flex;
+    height: fit-content;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: #212423;
+}
+
+
+.toggleBtn {
+    padding: 10px 25px 10px 25px;
+    margin: 0 20px 0 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: white ;
+    color: #3a403e;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.toggleBtn:hover {
+    cursor: pointer;
+    background-color: #3a403e;
+    color: white;  
+    box-shadow: 0 0 7px 3px rgb(255, 255, 255);
+}
+
+/* Rent Css */
+
+.rentContainer {
+    display: flex;
     height: fit-content;
     border: 1px solid;
     border-radius: 5px;
     padding: 0 20px 20px 20px;
     margin-bottom: 40px;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -128,7 +162,20 @@ h1 {
 
 /* Apartment Manager css */
 
-.divContainer .innerTitle {
+.apartContainer {
+    display: none;
+    height: fit-content;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 0 20px 60px 20px;
+    margin-bottom: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #212423;
+}
+
+.apartContainer .innerTitle {
     margin-bottom: 20px;
 }
 
@@ -141,7 +188,7 @@ h1 {
     color:white;  
 }
 
-.divContainer .addBtn{
+.apartContainer .addBtn{
     margin-bottom: 20px;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
@@ -152,7 +199,7 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.divContainer .addBtn:hover {
+.apartContainer .addBtn:hover {
     cursor: pointer;
     background-color: #3a403e;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);

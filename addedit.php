@@ -30,7 +30,6 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
             $insertQuery = "INSERT INTO apartment (fee, size, storyNum, status, bedroomNum, description, fullInfo) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmtInsert = $conn->prepare($insertQuery);
             $stmtInsert->bind_param('isisiss', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo);
-            $stmtInsert->execute();
 
             if ($stmtInsert->execute()) {
                 echo "<script>alert('Apartment added successfully'); window.location='manageapartment.php';</script>";
