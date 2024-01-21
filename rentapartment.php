@@ -104,8 +104,8 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                     $errors[] = "Valid Id should be exactly 10 digits";
                 }
         
-                if (strtolower($paymentMethod) !== 'gcash' && strtolower($paymentMethod) !== 'cash') {
-                    $errors[] = "Payment method should be Gcash or Cash";
+                if (strtolower($paymentMethod) !== 'gcash' && strtolower($paymentMethod) !== 'cash' && strtolower($paymentMethod) !== 'creditcard') {
+                    $errors[] = "Payment method should be Gcash, Cash or Credit Card";
                 }
         
                 if (empty($errors)) {
@@ -116,7 +116,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                     $existingRent = $stmtRent->get_result()->fetch_assoc();
             
                     if ($existingRent) {
-                        $pendingCheckQuery = "SELECT status FROM rent WHERE userID = ?";
+                        $pendingCheckQuery = "SELECT status, apartmentID FROM rent WHERE userID = ?";
                         $stmtPending = $conn->prepare($pendingCheckQuery);
                         $stmtPending->bind_param('i', $userid);
                         $stmtPending->execute();
@@ -125,10 +125,36 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                         if ($resultPending && $resultPending->num_rows > 0) {
                             $row = $resultPending->fetch_assoc();
                             $statusPending = $row["status"];
+                            $apartIDPending = $row["apartmentID"];
 
                             if($statusPending == "accepted"){
-                                echo "<script>alert('You can only rent once'); window.location='index.php';</script>";
-                                exit();
+                                $apartmentCheckQuery = "SELECT status FROM apartment WHERE apartmentID = ?";
+                                $stmtApartment = $conn->prepare($apartmentCheckQuery);
+                                $stmtApartment->bind_param('i', $apartIDPending);
+                                $stmtApartment->execute();
+                                $resultApartment = $stmtApartment->get_result();
+
+                                if ($resultApartment && $resultApartment->num_rows > 0) {
+                                    $row = $resultApartment->fetch_assoc();
+                                    $statusApartment = $row["status"];
+
+                                    if($statusApartment == "available") {
+                                        $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment, toPay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        $stmtInsert = $conn->prepare($insertQuery);
+                                        $stmtInsert->bind_param('sssssssssiissi', $fName, $dateOB, $contact, $email, $moveIn, $moveOut, $validIdType, $validIdNum, $paymentMethod, $userid, $apartNum, $status, $payment, $toPay);
+    
+                                        if ($stmtInsert->execute()) {
+                                            echo "<script>alert('Your rental will be reviewed, once accepted you\'ll have to pay one month deposit and one month advance'); window.location='index.php';</script>";
+                                            exit();
+                                        } else {
+                                            echo "<script>alert('Failed to rent');</script>";
+                                            exit();
+                                        }
+                                    } else {
+                                        echo "<script>alert('You can only rent one apartment at a time'); window.location='index.php';</script>";
+                                        exit();
+                                    }
+                                }
                             } else {
                                 $insertQuery = "INSERT INTO rent (fullname, dateOfBirth, contactNum, emailAdd, moveIn, moveOut, validIdType, validIdNum, paymentMethod, userID, apartmentID, status, payment, toPay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                 $stmtInsert = $conn->prepare($insertQuery);
@@ -313,7 +339,7 @@ if ($apartmentStatus === "unavailable") {
                             <option value="" selected disabled>Select Payment Method</option>
                             <option value="gcash">Gcash</option>
                             <option value="cash">Cash</option>
-                            <option value="creditCard">Credit Card</option>
+                            <option value="creditcard">Credit Card</option>
                         </select>
                     </div>
 

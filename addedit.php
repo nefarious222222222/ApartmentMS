@@ -111,7 +111,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'add') {
                             $stmtUpdate->bind_param('isisissi', $fee, $size, $storyNum, $status, $bedroomNum, $description, $fullInfo, $apartmentID);
 
                             if ($stmtUpdate->execute()) {
-                                echo "<script>alert('Apartment updated successfully'); window.location='manageapartment.php';</script>";
+                                echo "<script>alert('Apartment updated successfully'); window.location='index.php';</script>";
                                 unset($_SESSION['apartmentID']);
                                 exit();
                             } else {

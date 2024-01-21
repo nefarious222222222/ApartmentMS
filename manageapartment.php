@@ -24,7 +24,7 @@ if ($resultApart && $resultApart->num_rows > 0) {
 }
 
 if (isset($_POST["submit"])) {
-    $status = "accepted";
+    $statusRent = "accepted";
     $payment = "paid";
     $rentID = $_POST["rentID"];
     
@@ -42,7 +42,7 @@ if (isset($_POST["submit"])) {
     }
 
     if ($statusPending == "pending") {
-        $status = "unavailable";
+        $statusApart = "unavailable";
         $apartmentID = $_POST["apartmentID"];
 
         $statusCheckQuery = "SELECT status FROM apartment WHERE apartmentID = ?";
@@ -58,17 +58,17 @@ if (isset($_POST["submit"])) {
             echo "<script>console.log('Something went wrong');</script>";
         }
 
-        if ($statusStatus == "pending") {
+        if ($statusStatus == "available") {
             $updateRentQuery = "UPDATE rent SET status=?, payment=? WHERE rentID=?";
             $stmtRentUpdate = $conn->prepare($updateRentQuery);
-            $stmtRentUpdate->bind_param('ssi', $status, $payment, $rentID);
+            $stmtRentUpdate->bind_param('ssi', $statusRent, $payment, $rentID);
             
             $updateApartmentQuery = "UPDATE apartment SET status=? WHERE apartmentID=?";
             $stmtApartmentUpdate = $conn->prepare($updateApartmentQuery);
-            $stmtApartmentUpdate->bind_param('si', $status, $apartmentID);
+            $stmtApartmentUpdate->bind_param('si', $statusApart, $apartmentID);
             
-            if ($stmtRentUpdate->execute() || $stmtApartmentUpdate->execute()) {
-                echo "<script>alert('You have successfully accepted this rent'); window.location='manageapartment.php';</script>";
+            if ($stmtRentUpdate->execute() && $stmtApartmentUpdate->execute()) {
+                echo "<script>alert('You have successfully accepted this rent on apartment ". $apartmentID ."'); window.location='manageapartment.php';</script>";
                 exit();
             } else {
                 echo "<script>alert('Failed to update apartment status');</script>";
@@ -299,7 +299,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             $stmtDelete->bind_param('i', $apartID);
 
             if ($stmtDelete->execute()) {
-                echo "<script>alert('Apartment " . $apartID . " deleted successfully');</script>";
+                echo "<script>alert('Apartment " . $apartID . " deleted successfully'); window.location = 'index.php';</script>";
                 exit();
             } else {
                 echo "<script>alert('Apartment " . $apartID . " deletion unsuccessful');</script>";
