@@ -65,6 +65,29 @@ if (isset($_SESSION["user"])) {
         echo "0 results";
     }
 }
+
+$errors1 = [];
+$errorDiv1 = '';
+
+$maintenanceCheckQuery = "SELECT * FROM maintenance WHERE userID = ?";
+$stmtMaintenance = $conn->prepare($maintenanceCheckQuery);
+$stmtMaintenance->bind_param('i', $userId);
+$stmtMaintenance->execute();
+$resultMaintenance = $stmtMaintenance->get_result();
+
+$maintenances = [];
+
+if ($resultMaintenance && $resultMaintenance->num_rows > 0) {
+    while ($row = $resultMaintenance->fetch_assoc()) {
+        $maintenances[] = $row;
+    }
+} else {
+    $errors1[] = "No maintenance request has been made by you.";
+
+    foreach ($errors1 as $error) {
+        $errorDiv1 .= "<div class='alertError'><p>$error</p></div>";
+    }
+}
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -76,6 +99,7 @@ if (isset($_SESSION["user"])) {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
             rel="stylesheet"
         />
+        <script src="public/js/redirect.js"></script>
         <script>
             function showMaintenanceConfirm() {
                 document.getElementById("maintenanceConfirmation").style.display = "block"; 
@@ -83,6 +107,16 @@ if (isset($_SESSION["user"])) {
 
             function closeMaintenanceConfirm() {
                 document.getElementById("maintenanceConfirmation").style.display = "none";
+            }
+
+            function toggleMaintenanceRequest() {
+                document.getElementById("maintenanceRequest").style.display = "flex";
+                document.getElementById("replyContainer").style.display = "none";
+            }
+
+            function toggleAdminReply() {
+                document.getElementById("maintenanceRequest").style.display = "none";
+                document.getElementById("replyContainer").style.display = "flex";
             }
         </script>
         <style>
@@ -111,7 +145,14 @@ if (isset($_SESSION["user"])) {
         <h1 class="title">
             Maintenance Request          
         </h1>
-        <div class="changeContainer">        
+
+        <div class="divContainer">
+            <button class="toggleBtn" type="button" onclick="goBack()">Back</button>
+            <button class="toggleBtn" type="button" onclick="toggleMaintenanceRequest()">Maintenance Request</button>
+            <button class="toggleBtn" type="button" onclick="toggleAdminReply()">Admin's Reply</button>
+        </div>
+
+        <div class="changeContainer" id="maintenanceRequest">        
             <div class="formContainer">  
                 <?php echo $errorDiv; ?>
 
@@ -147,6 +188,36 @@ if (isset($_SESSION["user"])) {
                 </form>
             </div>             
         </div>
+
+        <div class="maintenanceContainer" id="replyContainer">
+            <h2 class="innerTitle">Maintenance Request</h2>
+            <?php echo $errorDiv1; ?>
+
+            <?php foreach ($maintenances as $maintenance): ?>
+                <div class="mainContainer">
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Apartment ID:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['apartmentID']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">About:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['about']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Request:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['request']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Admin's Reply:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['adminReply']; ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
     </body>
 </html>
 </span>

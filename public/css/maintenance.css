@@ -5,6 +5,36 @@ h1 {
     color: #212423;
 }
 
+.divContainer {
+    display: flex;
+    height: 100px;
+    margin-bottom: 30px;
+    border: 1px solid;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    background-color: #212423;
+}
+
+
+.toggleBtn {
+    padding: 10px 25px 10px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: white ;
+    color: #3a403e;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.toggleBtn:hover {
+    cursor: pointer;
+    background-color: #3a403e;
+    color: white;  
+    box-shadow: 0 0 7px 3px rgb(255, 255, 255);
+}
+
 .changeContainer {
     border: 1px solid;
     border-radius: 5px;
@@ -133,6 +163,54 @@ body {
     color:  #3a403e;
     background-color: white;
     box-shadow: 0 0 10px 5px rgba( 56, 64, 62, 0.5); 
+}
+
+/* Maintenance Css */
+
+.innerTitle {
+    margin: 20px auto 30px auto;
+    color: white;
+}
+
+.maintenanceContainer {
+    display: none;
+    height: fit-content;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 0 100px 20px 100px;
+    margin-bottom: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #212423;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+    background-color: white;
+    width: 100%;
+    padding: 50px 50px 20px 50px;
+    margin: 0 20px 40px 20px;
+    border-radius: 5px;
+}
+
+.valueContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.maintenanceField {
+    margin: 0;
+    color: #212423;
+    font-weight: bold;
+}
+
+.maintenanceValue {
+    margin: 0;
+    color: #212423;
 }
 
 /* Background Css */
