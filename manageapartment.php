@@ -98,6 +98,22 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
 } else {
     echo "No apartments found.";
 }
+
+/* Maintenance */
+$sqlMaintenance = "SELECT * FROM maintenance";
+$stmtMaintenance = $conn->prepare($sqlMaintenance);
+$stmtMaintenance->execute();
+$resultMaintenance = $stmtMaintenance->get_result();
+
+$maintenances = [];
+
+if ($resultMaintenance && $resultMaintenance->num_rows > 0) {
+    while ($row = $resultMaintenance->fetch_assoc()) {
+        $maintenances[] = $row;
+    }
+} else {
+    echo "No maintenance found.";
+}
 ?>
 <span style="font-family: verdana, geneva, sans-serif;">
 <!DOCTYPE html>
@@ -120,7 +136,7 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             <button class="toggleBtn" type="button" onclick="goBack()">Back</button>
             <button class="toggleBtn" type="button" onclick="toggleRentRequest()">Rent Request</button>
             <button class="toggleBtn" type="button" onclick="toggleManageApartment()">Manage Apartment</button>
-            <button class="toggleBtn" type="button" onclick="">Maintenance Request</button>
+            <button class="toggleBtn" type="button" onclick="toggleMaintenanceRequest()">Maintenance Request</button>
         </div>
             
         <div class="rentContainer" id="rentContainer">        
@@ -226,6 +242,52 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             </div>
         </div>
 
+        <div class="maintenanceContainer" id="maintenanceContainer">
+            <h2 class="innerTitle">Maintenance Request</h2>
+
+            <?php foreach ($maintenances as $maintenance): ?>
+                <div class="mainContainer">
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Maintenance ID:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['maintenanceID']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">User ID:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['userID']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Apartment ID:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['apartmentID']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">About:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['about']; ?></p>
+                    </div>
+
+                    <div class="valueContainer">
+                        <p class="maintenanceField">Request:</p>
+                        <p class="maintenanceValue"><?php echo $maintenance['request']; ?></p>
+                    </div>
+
+                    <form method="post">
+                        <div class="valueContainer" id="adminReply_<?php echo $maintenance['maintenanceID']; ?>" style="display: none;">
+                            <p class="apartmentField">Admin Reply:</p>
+                            <textarea type="text" name="adminReply" id="adminReplyTextArea_<?php echo $maintenance['maintenanceID']; ?>"></textarea>
+                        </div>
+
+                        <div class="containButton">
+                            <button class="replyBtn" type="button" id="submitReply_<?php echo $maintenance['maintenanceID']; ?>" name="submitReply_<?php echo $maintenance['maintenanceID']; ?>" onclick="showReplyConfirmation(<?php echo $maintenance['maintenanceID']; ?>, document.getElementById('adminReplyTextArea_<?php echo $maintenance['maintenanceID']; ?>').value)" style="display: none;" required>Submit Reply</button>
+                            <button class="replyBtn" type="button" id="cancelReply_<?php echo $maintenance['maintenanceID']; ?>" onclick="closeAdminReply(<?php echo $maintenance['maintenanceID']; ?>)" style="display: none;">Cancel</button>
+                            <button class="replyBtn" type="button" onclick="showAdminReply(<?php echo $maintenance['maintenanceID']; ?>)">Reply</button>
+                        </div>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
         <div class="acceptConfirmation" id="acceptConfirmation">
             <div class="acceptContent">
                 <h2 class="acceptTitle">Confirmation</h2>
@@ -257,6 +319,22 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             </div>
         </div>
 
+        <div class="replyConfirmation" id="replyConfirmation">
+            <div class="replyContent">
+                <h2 class="deleteTitle">Confirmation</h2>
+                <p class="replyMessage" id="replyMessage">Do you want to submit this reply on maintenance?</p>
+
+                <div class="buttonContainer">
+                    <form id="replyForm" action="manageapartment.php" method="post">
+                        <input type="hidden" id="maintenanceIDInput" name="maintenanceID" value="">
+                        <input type="hidden" id="adminReplyInput" name="adminReply" value="">
+                        <button class="replyBtn" type="submit" name="submitBtn">Submit</button>
+                        <button class="replyBtn" type="button" onclick="closeReplyConfirmation()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['editButton'])) {
@@ -271,6 +349,12 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
                 $_SESSION['apartmentID'] = $_POST['apartmentID'];
                 echo '<script>document.getElementById("deleteConfirmation").style.display = "block";</script>';
                 
+            } elseif (isset($_POST['submitReply_' . $maintenance['maintenanceID']])) {
+
+                $maintenanceIdValue = intval($_POST['maintenanceID']);
+                $adminReplyValue = htmlspecialchars($_POST['adminReply']);
+
+                echo '<script>document.getElementById("replyConfirmation").style.display = "block";</script>';
             }
         }
         ?>
@@ -298,17 +382,44 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             function toggleRentRequest() {
                 document.getElementById("rentContainer").style.display = "flex";
                 document.getElementById("apartContainer").style.display = "none";
+                document.getElementById("maintenanceContainer").style.display = "none";
                 
             }
 
             function toggleManageApartment() {
                 document.getElementById("apartContainer").style.display = "flex";
                 document.getElementById("rentContainer").style.display = "none";
+                document.getElementById("maintenanceContainer").style.display = "none";
             }
 
             function toggleMaintenanceRequest() {
-                document.getElementById("").style.display = "flex";
-                document.getElementById("").style.display = "none";
+                document.getElementById("maintenanceContainer").style.display = "flex";
+                document.getElementById("rentContainer").style.display = "none";
+                document.getElementById("apartContainer").style.display = "none";
+            }
+
+            function showAdminReply(maintenanceID) {
+                document.getElementById('adminReply_' + maintenanceID).style.display = 'block';
+                document.getElementById('cancelReply_' + maintenanceID).style.display = 'inline-block';
+                document.getElementById('submitReply_' + maintenanceID).style.display = 'inline-block';
+            }
+
+            function closeAdminReply(maintenanceID) {
+                document.getElementById('adminReply_' + maintenanceID).style.display = 'none';
+                document.getElementById('cancelReply_' + maintenanceID).style.display = 'none';
+                document.getElementById('submitReply_' + maintenanceID).style.display = 'none';
+            }
+
+            function closeReplyConfirmation() {
+                document.getElementById("replyConfirmation").style.display = "none";
+            }
+
+            function showReplyConfirmation(maintenanceID, adminReplyValue) {
+                const escapedAdminReply = adminReplyValue.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                document.getElementById('replyMessage').innerHTML = "Do you want to submit this reply on maintenance " + maintenanceID + "?";
+                document.getElementById("replyConfirmation").style.display = "block";
+                document.getElementById('maintenanceIDInput').value = maintenanceID;
+                document.getElementById('adminReplyInput').value = escapedAdminReply;
             }
     </script>
     <?php
@@ -332,6 +443,32 @@ if ($resultApartment && $resultApartment->num_rows > 0) {
             $stmtDelete->close();
         } else {
             echo "<script>alert('Error preparing deleting Apartment " . $apartID . "');</script>";
+        }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitBtn'])) {
+        $maintenanceIdValue = htmlspecialchars($_POST['maintenanceID']);
+        $adminReplyValue = htmlspecialchars($_POST['adminReply']);
+
+        if ($adminReplyValue == "") {
+            echo '<script>alert("Admin Reply cannot be empty.");</script>';
+        } else {
+            $updateQuery = "UPDATE maintenance SET adminReply = ? WHERE maintenanceID = ?";
+            $stmtUpdate = $conn->prepare($updateQuery);
+
+            if ($stmtUpdate) {
+                $stmtUpdate->bind_param('si', $adminReplyValue, $maintenanceIdValue);
+
+                if ($stmtUpdate->execute()) {
+                    echo "<script>alert('Maintenance " . $maintenanceIdValue . " updated successfully');</script>";
+                } else {
+                    echo "<script>alert('Maintenance " . $maintenanceIdValue . " update unsuccessful');</script>";
+                }
+
+                $stmtUpdate->close();
+            } else {
+                echo "<script>alert('Error preparing updating Maintenance " . $maintenanceIdValue . "');</script>";
+            }
         }
     }
     ?>
